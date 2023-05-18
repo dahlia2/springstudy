@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace는 @Mapper를 지정한다. -->
+<mapper namespace="com.gdu.product.mapper.ProductMapper">
+
+	<!-- 많이 팔린 순 -->
+	<select id="getBestSeller" resultType="ProductDTO">
+		SELECT PROD_NO, PROD_NAME, PROD_NAME_ENG, RANK() OVER(ORDER BY PROD_PRICE), PROD_CONTENT, PROD_IMG_WINE, PROD_IMG_CONTENT, PROD_TYPE, PROD_NATION, PROD_BODY, PROD_ALCOL, PROD_DATE, PROD_STOCK, PROD_SELL_COUNT  
+		  FROM PRODUCT
+	</select>
+	
+	<!-- 최신순 -->
+	<select id="getNewArrival" resultType="ProductDTO">
+		SELECT PROD_NO, PROD_NAME, PROD_NAME_ENG, PROD_PRICE, PROD_CONTENT, PROD_IMG_WINE, PROD_IMG_CONTENT, PROD_TYPE, PROD_NATION, PROD_BODY, PROD_ALCOL, RANK() OVER(ORDER BY PROD_DATE), PROD_STOCK, PROD_SELL_COUNT  
+		  FROM PRODUCT
+	</select>
+	
+	<!-- 전체 조회 -->
+	<select id="getAllList" resultType="ProductDTO">
+		SELECT PROD_NO, PROD_NAME, PROD_NAME_ENG, PROD_PRICE, PROD_CONTENT, PROD_IMG_WINE, PROD_IMG_CONTENT, PROD_TYPE, PROD_NATION, PROD_BODY, PROD_ALCOL, PROD_DATE, PROD_STOCK, PROD_SELL_COUNT
+		  FROM PRODUCT
+		 ORDER BY PROD_NO ASC
+	</select>
+	
+	<!-- 상세페이지 -->
+	<select id="detail" resultType="ProductDTO">
+		SELECT PROD_NO, PROD_NAME, PROD_NAME_ENG, PROD_PRICE, PROD_CONTENT, PROD_IMG_WINE, PROD_IMG_CONTENT, PROD_TYPE, PROD_NATION, PROD_BODY, PROD_ALCOL, PROD_DATE, PROD_STOCK, PROD_SELL_COUNT
+		  FROM PRODUCT
+		 WHERE PROD_NO = #{prodNo}
+	</select>
+	
+	<!-- 검색 -->
+	<select id="getWineListUsingSearch" resultType="ProductDTO">
+		SELECT PROD_NO, PROD_NAME, PROD_NAME_ENG, PROD_PRICE, PROD_CONTENT, PROD_IMG_WINE, PROD_IMG_CONTENT, PROD_TYPE, PROD_NATION, PROD_BODY, PROD_ALCOL, PROD_DATE, PROD_STOCK, PROD_SELL_COUNT
+		  FROM PRODUCT
+		 WHERE PROD_NAME LIKE '%' || #{query} || '%'
+		 	OR PROD_NAME_ENG LIKE '%' || #{query} || '%'
+	</select>
+
+	
+</mapper>
