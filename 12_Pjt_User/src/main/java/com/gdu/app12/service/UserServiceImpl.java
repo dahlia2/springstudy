@@ -269,6 +269,19 @@ public class UserServiceImpl implements UserService {
     }
     
   }
+  
+  
+  @Transactional(readOnly=true)
+  @Override
+  public void sleepUserHandle() {
+	  int insertResult = userMapper.insertSleepUser();
+	  if(insertResult > 0) {
+		  userMapper.deleteUserForSleep();
+	 }
+  }
+  
+  
+  
 
 }
 
