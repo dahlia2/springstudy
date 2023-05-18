@@ -41,13 +41,12 @@ public class ProductServiceImpl implements ProductService {
 		
 		List<ProductDTO> product = productMapper.getWineListUsingSearch(query);
 		model.addAttribute("product", product);	
-	}
+	} 
 	
 	@Override
 	public List<ProductDTO> getAllList(Model model) {
 		return productMapper.getAllList();
 	}
-	
 	
 	
 }

@@ -10,5 +10,5 @@ public class MvcController {
 	public String welcome() {
 		return "index";
 	}
-	// 수정이 됐으려나?
+	// 수정이 됐으려나? >> 됐다!
 }
