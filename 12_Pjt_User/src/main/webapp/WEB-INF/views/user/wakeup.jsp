@@ -28,17 +28,17 @@
 <body>
 
   <div>
-  
-    <h1>휴먼 계정 안내</h1>
+    
+    <h1>휴면계정안내</h1>
     <div>
-		안녕하세요. ${sessionScope.sleepUserId}님은 1년 이상 로그인하지 않아 관련 법령에 의해서
+      안녕하세요. ${sessionScope.sleepUserId}님은 1년 이상 로그인하지 않아 관련 법령에 의해서 휴면회원으로 전환되었습니다.
     </div>
     <div>
-    	휴먼해제를 위해서 휴먼해제 버튼을 클릭하세요.
-    	<input type="button" value="휴먼해제" id="btnWakeUp">
-    	<input type="button" value="취소" id="btnCancle">
+      휴면해제를 위해서 휴면해제 버튼을 클릭하세요.
+      <input type="button" value="휴면해제" id="btnWakeup">
+      <input type="button" value="취소" id="btnCancel">
     </div>
-  
+    
   </div>
   
 </body>

@@ -4,6 +4,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -92,29 +93,13 @@ public class UserController {
   
   @GetMapping("/wakeup.form")
   public String wakeup() {
-	  return "user/wakeup";
+    return "user/wakeup";
   }
   
-	/*
-	 * @GetMapping("/restore.do") public String restore() { // 복원할 회원의 아이디를 sysout으로
-	 * 출력해 보시오.
-	 * 
-	 * System.out.println(userService.verifyId(id)); }
-	 */
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+  @GetMapping("/restore.do")
+  public void restore(HttpSession session) {
+    // 복원할 회원의 아이디를 sysout으로 출력해 보시오.
+    System.out.println(session.getAttribute("sleepUserId"));
+  }
   
 }
