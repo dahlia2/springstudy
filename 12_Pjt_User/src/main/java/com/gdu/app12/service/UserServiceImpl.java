@@ -175,9 +175,9 @@ public class UserServiceImpl implements UserService {
     // 3. 이전 페이지로 이동하기
     if(loginUserDTO != null) {
       
-	  // 자동 로그인 처리를 위한 autoLogin 메소드 호출하기
-	  autologin(request, response);
- 
+      // 자동 로그인 처리를 위한 autoLogin 메소드 호출하기
+      autoLogin(request, response);
+      
       HttpSession session = request.getSession();
       session.setAttribute("loginId", id);
       
@@ -217,91 +217,88 @@ public class UserServiceImpl implements UserService {
   }
   
   @Override
-	public void autologin(HttpServletRequest request, HttpServletResponse response) {
-	
-	  /*
-	  	자동 로그인 처리하기
-		 
-	  	 1. 자동 로그인을 체크한 경우
-		   1) session의 id를 DB의 AUTOLOGIN_ID에 저장한다. (중복이 없고, 다른 사람이 알기 어려운 정보를 이용해서 자동 로그인에서 사용할 ID를 결정한다.)
-		   2) 자동 로그인을 유지할 기간(예시 : 15일)을 DB의 AUTOLOGIN_EXPIRED_AT에 칼럼에 저장한다.
-		   3) session의 id를 쿠키로 저장한다. (쿠키 : 각 사용자의 브라우저에 저장되는 정보)
-		  	  이 때 쿠키의 유지 시간을 자동 로그인을 유지할 기간과 동일하게 맞춘다.
-		  		
-		  2. 자동 로그인을 체크하지 않은 경우
-		  	1) DB에 저장된 AUTOLOGIN_ID 칼럼과 AUTOLOGIN_EXPIRED_AT 칼럼의 정보를 삭제한다.
-		  	2) 쿠키를 삭제한다.
-		*/
-	  
-	  // 요청 파라미터
-	  String id = request.getParameter("id");
-	  String chkAutoLogin = request.getParameter("chkAutoLogin");
-	  
-	  // 자동 로그인을 체크한 경우
-	  if(chkAutoLogin != null) {
-		  
-		  // session의 id를 가져온다.
-		  HttpSession session = request.getSession();
-		  String sessionId = session.getId(); 	// sessionId : 브라우저가 새롭게 열릴 때마다 자동으로 갱신되는 임의의 값
-		  
-		  // DB로 보낼 UserDTO 만들기
-		  UserDTO userDTO = new UserDTO();
-		  userDTO.setId(id);
-		  userDTO.setAutologinId(chkAutoLogin);
-		  userDTO.setAutologinExpiredAt(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 15));  // long type의 날짜는 timestamp밖에 없음
-		  							// 현재 + 15일 : java.sql.Date 클래스를 이용해서 작업을 수행한다.
-		  							// java.sql.Date 클래스는 타임스탬프를 이용해서 날짜를 생성한다.
-		  
-		  // DB로 UserDTO 보내기
-		  userMapper.insertAutologin(userDTO);
-		  
-		  // session id를 쿠키에 저장하기
-		  Cookie cookie = new Cookie("autoLoginId", sessionId);
-		  cookie.setMaxAge(60 * 60 * 24 * 15);  		// 초 단위로 15일 지정
-		  cookie.setPath(request.getContextPath());     // 애플리케이션 모든 URL에서 autoLoginId 쿠키를 확인할 수 있다.
-		  response.addCookie(cookie);  // 쿠키는 서버가 -> 브라우저에게 보내는 것!
-	
-	  }
-	  // 자동 로그인을 체크하지 않은 경우
-	  else {
-		  
-		  // DB에서 AUTOLOGIN_ID 칼럼과 AUTOLOGIN_EXPIRED_AT 칼럼 정보 삭제하기
-		  userMapper.deleteAutoLogin(id);
-		  
-		  // autoLoginId 쿠키 삭제하기
-		  Cookie cookie = new Cookie("autoLoginId", "");
-		  cookie.setMaxAge(0);    // 쿠키 유지시간을 0초로 설정
-		  cookie.setPath(request.getContextPath());     // autoLoginId 쿠키의 path와 동일하게 설정
-		  response.addCookie(cookie); 
-		  
-	  }
-	}
-  
-  
+  public void autoLogin(HttpServletRequest request, HttpServletResponse response) {
+    
+    /*
+      자동 로그인 처리하기
+      
+      1. 자동 로그인을 체크한 경우
+        1) session의 id를 DB의 AUTOLOGIN_ID 칼럼에 저장한다. (중복이 없고, 다른 사람이 알기 어려운 정보를 이용해서 자동 로그인에서 사용할 ID를 결정한다.)
+        2) 자동 로그인을 유지할 기간(예시 : 15일)을 DB의 AUTOLOGIN_EXPIRED_AT 칼럼에 저장한다.
+        3) session의 id를 쿠키로 저장한다. (쿠키 : 각 사용자의 브라우저에 저장되는 정보)
+           이 때 쿠키의 유지 시간을 자동 로그인을 유지할 기간과 동일하게 맞춘다.
+      
+      2. 자동 로그인을 체크하지 않은 경우
+        1) DB에 저장된 AUTOLOGIN_ID 칼럼과 AUTOLOGIN_EXPIRED_AT 칼럼의 정보를 삭제한다.
+        2) 쿠키를 삭제한다.
+    */
+    
+    // 요청 파라미터
+    String id = request.getParameter("id");
+    String chkAutoLogin = request.getParameter("chkAutoLogin");
+    
+    // 자동 로그인을 체크한 경우
+    if(chkAutoLogin != null) {
+      
+      // session의 id를 가져온다.
+      HttpSession session = request.getSession();
+      String sessionId = session.getId();  // sessionId : 브라우저가 새롭게 열릴때마다 자동으로 갱신되는 임의의 값
+      
+      // DB로 보낼 UserDTO 만들기
+      UserDTO userDTO = new UserDTO();
+      userDTO.setId(id);
+      userDTO.setAutologinId(sessionId);
+      userDTO.setAutologinExpiredAt(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 15));
+                                    // 현재 + 15일 : java.sql.Date 클래스를 이용해서 작업을 수행한다.
+                                    // java.sql.Date 클래스는 타임스탬프를 이용해서 날짜를 생성한다.
+      
+      // DB로 UserDTO 보내기
+      userMapper.insertAutologin(userDTO);
+      
+      // session id를 쿠키에 저장하기
+      Cookie cookie = new Cookie("autoLoginId", sessionId);
+      cookie.setMaxAge(60 * 60 * 24 * 15);      // 초 단위로 15일 지정
+      cookie.setPath(request.getContextPath()); // 애플리케이션의 모든 URL에서 autoLoginId 쿠키를 확인할 수 있다.
+      response.addCookie(cookie);
+      
+    }
+    // 자동 로그인을 체크하지 않은 경우
+    else {
+      
+      // DB에서 AUTOLOGIN_ID 칼럼과 AUTOLOGIN_EXPIRED_AT 칼럼 정보 삭제하기
+      userMapper.deleteAutologin(id);
+      
+      // autoLoginId 쿠키 삭제하기
+      Cookie cookie = new Cookie("autoLoginId", "");
+      cookie.setMaxAge(0);  // 쿠키 유지시간을 0초로 설정
+      cookie.setPath(request.getContextPath());  // autoLoginId 쿠키의 path와 동일하게 설정
+      response.addCookie(cookie);
+      
+    }
+    
+  }
   
   @Override
   public void logout(HttpServletRequest request, HttpServletResponse response) {
     
-    HttpSession session = request.getSession();
-    
     // 1. 자동 로그인을 해제한다.
-	// DB에서 AUTOLOGIN_ID 칼럼과 AUTOLOGIN_EXPIRED_AT 칼럼 정보 삭제하기
-    String id = (String)session.getAttribute("loginId");
-    userMapper.deleteAutoLogin(id);
-	  
+    
+    // DB에서 AUTOLOGIN_ID 칼럼과 AUTOLOGIN_EXPIRED_AT 칼럼 정보 삭제하기
+    HttpSession session = request.getSession();
+    String id = (String) session.getAttribute("loginId");
+    userMapper.deleteAutologin(id);
+    
     // autoLoginId 쿠키 삭제하기
     Cookie cookie = new Cookie("autoLoginId", "");
-    cookie.setMaxAge(0);    // 쿠키 유지시간을 0초로 설정
-    cookie.setPath(request.getContextPath());     // autoLoginId 쿠키의 path와 동일하게 설정
-    response.addCookie(cookie);     
+    cookie.setMaxAge(0);  // 쿠키 유지시간을 0초로 설정
+    cookie.setPath(request.getContextPath());  // autoLoginId 쿠키의 path와 동일하게 설정
+    response.addCookie(cookie);
     
     // 2. session에 저장된 모든 정보를 지운다.
     session.invalidate();
     
   }
   
-  
-  // [leave] 회원 탈퇴
   @Transactional(readOnly=true)
   @Override
   public void leave(HttpServletRequest request, HttpServletResponse response) {
@@ -351,21 +348,60 @@ public class UserServiceImpl implements UserService {
     
   }
   
-  
   @Transactional(readOnly=true)
   @Override
   public void sleepUserHandle() {
-	  int insertResult = userMapper.insertSleepUser();
-	  if(insertResult > 0) {
-		  userMapper.deleteUserForSleep();
-	 }
+    int insertResult = userMapper.insertSleepUser();
+    if(insertResult > 0) {
+      userMapper.deleteUserForSleep();
+    }
   }
   
+  @Override
+  public void restore(HttpServletRequest request, HttpServletResponse response) {
+    
+    // 복원할 아이디는 session에 sleepUserId로 저장되어 있다.
+    HttpSession session = request.getSession();
+    String id = (String) session.getAttribute("sleepUserId");
+    
+    // 복원
+    int insertResult = userMapper.insertRestoreUser(id);
+    int deleteResult = userMapper.deleteSleepUser(id);
+    
+    // 응답
+    try {
+
+      response.setContentType("text/html; charset=UTF-8");
+      PrintWriter out = response.getWriter();
+      
+      out.println("<script>");
+      if(insertResult == 0 && deleteResult == 0) {
+        session.removeAttribute("sleepUserId");  // session에 저장된 sleepUserId 제거
+        out.println("alert('휴면 계정이 복구되었습니다. 휴면 계정 활성화를 위해서 곧바로 로그인 해 주세요.');");
+        out.println("location.href='" + request.getContextPath() + "/index.do';");  // 로그인이 필요하지만 로그인 페이지로 보내지 말자!(여기서 로그인 페이지로 이동하게 되면 로그인 후 referer에 의해서 다시 restore 과정으로 돌아온다.) 
+      } else {
+        out.println("alert('휴면 계정이 복구되지 않았습니다. 다시 시도하세요.');");
+        out.println("history.back();");
+      }
+      out.println("</script>");
+      out.flush();
+      out.close();
+      
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    
+  }
+  
+  /*
+   * @Override public Map<String, Object> findUser(UserDTO userDTO) { Map<String,
+   * Object> map = new HashMap<String, Object>(); map.put("findUser",
+   * userMapper.selectUserByEmail(userDTO.getEmail())); return map; }
+   */
   
   
 
 }
-
 
 
 

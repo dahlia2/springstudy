@@ -13,7 +13,7 @@
 </head>
 <body>
 
-	<a href="${contextPath}/admin/main.form">관리자</a>
+	<a href="${contextPath}/admin/main.page">관리자</a>
 	
 </body>
 </html>

@@ -14,16 +14,16 @@
 <body>
 
 	<div>
-		<a href="${contextPath}/admin/product.form">상품 관리</a>
+		<a href="${contextPath}/admin/product.page">상품 관리</a>
 	</div>
 	<div>
-		<a href="${contextPath}/admin/member.form">회원 관리</a>
+		<a href="${contextPath}/admin/user.page">회원 관리</a>
 	</div>
 	<div>
-		<a href="${contextPath}/admin/board.form">게시판 관리</a>
+		<a href="${contextPath}/admin/board.page">게시판 관리</a>
 	</div>
 	<div>
-		<a href="${contextPath}/admin/order.form">주문 관리</a>
+		<a href="${contextPath}/admin/order.page">주문 관리</a>
 	</div>
 	
 </body>

@@ -7,8 +7,7 @@
 	<name>00_Semi</name>
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
- 
-  <properties>
+   <properties>
     <java-version>11</java-version>
     <org.springframework-version>5.3.3</org.springframework-version>
     <org.aspectj-version>1.9.6</org.aspectj-version>
@@ -16,28 +15,6 @@
   </properties>
 
   <dependencies>
-
-    <!-- Random String : 인증코드용 -->
-    <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
-    <dependency>
-        <groupId>org.apache.commons</groupId>
-        <artifactId>commons-lang3</artifactId>
-        <version>3.11</version>
-    </dependency>
-
-    <!-- 이메일 전송 (javax.mail + spring-context-support) -->
-    <!-- https://mvnrepository.com/artifact/com.sun.mail/javax.mail -->
-    <dependency>
-        <groupId>com.sun.mail</groupId>
-        <artifactId>javax.mail</artifactId>
-        <version>1.6.2</version>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/org.springframework/spring-context-support -->
-    <dependency>
-        <groupId>org.springframework</groupId>
-        <artifactId>spring-context-support</artifactId>
-        <version>${org.springframework-version}</version>
-    </dependency>
 
     <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
     <dependency>

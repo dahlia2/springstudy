@@ -13,6 +13,7 @@ import com.gdu.app08.domain.BoardDTO;
 	2. 쿼리문의 id와 메소드명을 동일하게 처리한다.
 	3. DBconfig.java(SqlSessionTemplate Bean이 정의된 파일)에 @MapperScan을 추가해야한다.
 */
+
 @Mapper
 public interface BoardMapper {
 	public List<BoardDTO> selectBoardList();

@@ -15,31 +15,31 @@ import com.gdu.app12.mapper.UserMapper;
 
 @Component
 public class AutoLoginInterceptor implements HandlerInterceptor {
-	
+
 	@Autowired
 	private UserMapper userMapper;
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-		
+
 		HttpSession session = request.getSession();
 		
-		if(session != null && session.getAttribute("loginId") == null) { 
+		if(session != null && session.getAttribute("loginId") == null) {
 			
-			Cookie cookie = WebUtils.getCookie(request, "autoCookie");
+			Cookie cookie = WebUtils.getCookie(request, "autoLoginId");
 			if(cookie != null) {
 				
-				String autoLoginID = cookie.getValue();
-				UserDTO loginUserDTO = userMapper.selectAutologin(autoLoginID);
+				String autologinId = cookie.getValue();
+				UserDTO loginUserDTO = userMapper.selectAutologin(autologinId);
+				
 				if(loginUserDTO != null) {
 					session.setAttribute("loginId", loginUserDTO.getId());
 				}
+				
 			}
+			
 		}
+		return true; // 인터셉터 동작시킨 뒤 컨트롤러를 계속 동작시킨다.
+	}	
 		
-		return true;  // 인터셉터를 동작 시킨 뒤 컨트롤러를 계속 동작시킨다.
-	
-	}
-	
-
 }
