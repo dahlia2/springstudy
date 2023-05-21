@@ -118,15 +118,14 @@ li:hover {
  }
  
 .tableWine {
-  width: 1000px;
+  width: 1200px;
 }
 
 table {
    text-align: center;
-   margin-top: 20px;
+   margin-top: 30px;
    margin-bottom: 50px;
-   padding: 10px;
-   width: auto;
+   padding: 14px;
 }
 
 td {
@@ -151,9 +150,9 @@ tr {
 }
 
 .main_right {
-  padding-left: 50px;
+  padding-left: 30px;
   padding-top: 30px;
-  padding-right: 150px;
+  padding-right: 120px;
   border: 2px solid gray;
   width: 1100px;
 }
@@ -202,8 +201,7 @@ tr {
     
     </div>
     <div class="main_right">
-    <h1>상품관리</h1>
-    <!-- <i class="fa-duotone fa-wine-glass fa-flip" style="--fa-primary-opacity: 1; --fa-secondary-opacity: 0.6; color: #79297f;"></i> -->
+    <h1>상품관리 <i class="fa-solid fa-wine-glass fa-beat-fade"></i></h1>
       <br>
          <span>정렬개수 :&nbsp;</span>
          <select id="recordPerPage">
@@ -241,7 +239,7 @@ tr {
         <c:forEach items="${wineList}" var="wine" varStatus="vs">
           <tr class="tb_el">
             <td class="elwine" id="wineNo">${wine.prodNo}</td>
-            <td class="elwine"><img src="${wine.prodThumbnail}" width="50px"></td>
+            <td class="elwine"><img src="${wine.prodThumbnail}" width="90px"></td>
             <td class="elwine">${wine.prodName}</td>
             <td class="elwine">${wine.prodNameEng}</td>
             <td class="elwine">${wine.prodType}</td>

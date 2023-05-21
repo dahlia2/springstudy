@@ -17,10 +17,20 @@
      WHERE PROD_NO = #{prodNo}
   </select>
   
+  <update id="modifyProduct" parameterType="ProductDTO">
+    UPDATE PRODUCT
+       SET PROD_NAME = #{prodName}
+         , PROD_NAME_ENG = #{prodNameEng}
+         , PROD_PRICE = #{prodPrice}
+         , PROD_NATION = #{prodNation}
+         , PROD_ALCOHOL = #{prodAlcohol}
+         , PROD_STOCK = #{prodStock}
+      WHERE PROD_NO = #{prodNo} 
+  </update>
+  
   <select id="selectUsers" resultType="UserDTO">
     SELECT *
       FROM USERS
   </select>
-
-
+  
 </mapper>

@@ -16,8 +16,20 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <script>
 
-
-
+function fnEdit(){
+	$.ajax({
+		type: 'post',
+		url: '${contextPath}/admin/modifyProduct.do',
+		data: $('#frm').serialize(),
+		dataType: 'json',
+		success: function(resData) {
+			alert('수정이 완료되었습니다.'); 
+		},
+		error: function(jqXHR) {
+			alert('수정이 실패되었습니다. 입력값을 확인해주세요.');
+		}
+	})
+}
 </script>
 <style>
 @import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
@@ -132,9 +144,10 @@ select {
 }
 
 .row_left {
-  width: 130px;
-  background-color: #F0CB85;
-  font-size: 16px;
+  width: 120px;
+  background-color: #C39873;
+  font-size: 15px;
+  font-weight: 500;
 }
 
 .row_right {
@@ -171,6 +184,10 @@ option {
   height: 30px;
   margin-right: 10px;
 }
+
+#wNo {
+  background-color: #dcdcdc;
+}
 </style>
 </head>
 <body>
@@ -206,55 +223,55 @@ option {
       <h1>상품 상세</h1>
       <br>
       <div class="tableWine">
-        <form method="post" action="${contextPath}/admin/editProduct">
+        <form id="frm">
           <div class="btnDiv">
             <input type="button" value="편집" onclick="fnEdit()" id="btn_three">
             <input type="button" value="삭제" onclick="fnRemove()" id="btn_three">
             <input type="button" value="목록" onclick="fnList()" id="btn_three">
           </div>
           <table border="1" id="tableEdit">
-            <tbody>
-              <tr class="tb_row">
-                <td class="row_left">와인번호</td>
-                <td class="row_right"><input type="text" value="${w.prodNo}" disabled="disabled"></td>
-              </tr>
-              <tr class="tb_row">
-                <td class="row_left">이미지</td>
-                <td class="row_right"><img src="${w.prodThumbnail}" width="200px"></td>
-              </tr>
-              <tr class="tb_row">
-                <td class="row_left">와인명(KOR)</td>
-                <td class="row_right"><input type="text" value="${w.prodName}"></td>
-              </tr>
-              <tr class="tb_row">
-                <td class="row_left">와인명(ENG)</td>
-                <td class="row_right"><input type="text" value="${w.prodNameEng}"></td>
-              </tr>
-              <tr class="tb_row">
-                <td class="row_left">가격</td>
-                <td class="row_right"><input type="text" value="${w.prodPrice}"></td>
-              </tr>
-              <tr class="tb_row">
-                <td class="row_left">타입</td>
-                <td class="row_right"><select><option>RED</option><option>WHITE</option><option>ROZE</option><option>SPARKLING</option></select></td>
-              </tr>
-              <tr class="tb_row">
-                <td class="row_left">국가</td>
-                <td class="row_right"><input type="text" value="${w.prodNation}"></td>
-              </tr>
-              <tr class="tb_row">
-                <td class="row_left">알코올</td>
-                <td class="row_right"><input type="text" value="${w.prodAlcohol}"></td>
-              </tr>
-              <tr class="tb_row">
-                <td class="row_left">출시일자</td>
-                <td class="row_right"><input type="text" value="${w.prodDate}"></td>
-              </tr>
-              <tr class="tb_row">
-                <td class="row_left">재고</td>
-                <td class="row_right"><input type="text" value="${w.prodStock}"></td>
-              </tr>
-            </tbody>
+              <tbody>
+                <tr class="tb_row">
+                  <td class="row_left">와인번호</td>
+                  <td class="row_right"><input type="text" value="${w.prodNo}" id="wNo" name="wNo" readonly="readonly"></td>
+                </tr>
+                <tr class="tb_row">
+                  <td class="row_left">이미지</td>
+                  <td class="row_right"><img src="${w.prodThumbnail}" width="200px"></td>
+                </tr>
+                <tr class="tb_row">
+                  <td class="row_left">와인명(KOR)</td>
+                  <td class="row_right"><input type="text" value="${w.prodName}" id="wName" name="wName"></td>
+                </tr>
+                <tr class="tb_row">
+                  <td class="row_left">와인명(ENG)</td>
+                  <td class="row_right"><input type="text" value="${w.prodNameEng}" id="wNameEng" name="wNameEng"></td>
+                </tr>
+                <tr class="tb_row">
+                  <td class="row_left">가격</td>
+                  <td class="row_right"><input type="text" value="${w.prodPrice}" id="wPrice" name="wPrice"></td>
+                </tr>
+                <tr class="tb_row">
+                  <td class="row_left">타입</td>
+                  <td class="row_right"><select><option>RED</option><option>WHITE</option><option>ROSE</option><option>SPARKLING</option></select></td>
+                </tr>
+                <tr class="tb_row">
+                  <td class="row_left">국가</td>
+                  <td class="row_right" id="wprodNation"><input type="text" value="${w.prodNation}" id="wNation" name="wNation"></td>
+                </tr>
+                <tr class="tb_row">
+                  <td class="row_left">알코올</td>
+                  <td class="row_right"><input type="text" value="${w.prodAlcohol}" id="wAlcohol" name="wAlcohol"></td>
+                </tr>
+                <tr class="tb_row">
+                  <td class="row_left">출시일자</td>
+                  <td class="row_right"><input type="text" value="${w.prodDate}" id="wDate" name="wDate" disabled="disabled"></td>
+                </tr>
+                <tr class="tb_row">
+                  <td class="row_left">재고</td>
+                  <td class="row_right"><input type="number" value="${w.prodStock}" id="wStock" name="wStock"></td>
+                </tr>
+              </tbody>
           </table>
         </form>
       </div>

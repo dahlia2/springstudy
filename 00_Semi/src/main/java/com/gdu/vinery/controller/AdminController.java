@@ -1,14 +1,19 @@
 package com.gdu.vinery.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gdu.vinery.domain.ProductDTO;
 import com.gdu.vinery.domain.UserDTO;
@@ -55,6 +60,12 @@ public class AdminController {
 	@GetMapping("/order.page")
 	public String order() {
 		return "admin/order";	
+	}
+	
+	@ResponseBody
+	@PostMapping(value="/modifyProduct.do", produces=MediaType.APPLICATION_JSON_VALUE)
+	 public Map<String, Object> modifyProduct(HttpServletRequest request) {
+    return adminService.modifyProduct(request);
 	}
 	
 }
