@@ -16,7 +16,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <script>
 $(function() {
-	
+  
     $("#datepicker1, #datepicker2").datepicker({
       
            dateFormat: 'yy-mm-dd'   // 달력 날짜 형태
@@ -51,8 +51,8 @@ $(function(){
 $(function(){
   $('#text').hide();
   $('.elwine').on('mouseover', function(){
-	  $('#text').show();
-	})
+    $('#text').show();
+  })
 })
   
 </script>
@@ -116,10 +116,16 @@ li:hover {
    width: 140px;
    padding: 30px;
  }
+ 
+.tableWine {
+  width: 1000px;
+}
 
 table {
    text-align: center;
-   padding: 20px;
+   margin-top: 20px;
+   margin-bottom: 50px;
+   padding: 10px;
    width: auto;
 }
 
@@ -137,6 +143,7 @@ td {
 tr {
    padding: 5px;
 }
+
 #tb_column {
    font-size: 15px;
    font-weight: 500;
@@ -144,10 +151,11 @@ tr {
 }
 
 .main_right {
-  padding-left: 30px;
+  padding-left: 50px;
   padding-top: 30px;
   padding-right: 150px;
   border: 2px solid gray;
+  width: 1100px;
 }
 
 #searchWineP {
@@ -173,7 +181,7 @@ tr {
     </div>
     <div class="gnb">
       <ul>
-        <li id="test"></li>
+        <!-- <li id="test"></li> -->
         <li><a>Wine</a></li>
         <li><a>New & Best</a></li>
         <li><a>Board</a></li>
@@ -214,12 +222,8 @@ tr {
          </p>
       </div>
       
-      <br>
-      
-      
-      
       <div class="tableWine">
-       <table border="1">
+       <table border="1" id="tableWineAll">
         <thead>
           <tr id="tb_column">
             <td><span class="title" data-column="P.PROD_NO" data-order="${order}">번호</span></td>

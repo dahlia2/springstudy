@@ -26,6 +26,7 @@ public class UserController {
   @Autowired
   private UserService userService;
   
+  // 회원가입
   @GetMapping("/agree.form")
   public String agreeForm() {
     return "user/agree";

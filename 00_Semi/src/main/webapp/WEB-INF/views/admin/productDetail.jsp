@@ -8,88 +8,261 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>detail</title>
 <script src="${contextPath}/resources/js/lib/jquery-3.6.4.min.js"></script>
-<script src="${contextPath}/resources/summernote-0.8.18-dist/summernote-lite.min.js"></script>
-<script src="${contextPath}/resources/summernote-0.8.18-dist/lang/summernote-ko-KR.min.js"></script>
-<link rel="stylesheet" href="${contextPath}/resources/summernote-0.8.18-dist/summernote-lite.min.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <script>
-  function fnEdit(){
-    $('#edit_screen').show();
-    $('#detail_screen').hide();
-  }
-  
-  function fnRemove(){
-    if(confirm('삭제할까요?')){
-      $('#frm_remove').submit();
-    }
-  }
-  
-  function fnList(){
-    location.href = '${contextPath}/board/list.do';
-  }
-  
-  function fnBack(){
-    $('#edit_screen').hide();
-    $('#detail_screen').show();
-  }
-  
-  
-  $(function(){
-    $('#content').summernote({
-      width: 640,
-      height: 480,
-      lang: 'ko-KR',
-      toolbar: [
-        ['style', ['bold', 'italic', 'underline', 'clear']],
-        ['font', ['strikethrough', 'superscript', 'subscript']],
-        ['fontname', ['fontname']],
-        ['color', ['color']],
-        ['para', ['ul', 'ol', 'paragraph']],
-        ['table', ['table']],
-        ['insert', ['link', 'picture', 'video']],
-        ['view', ['fullscreen', 'codeview', 'help']]
-      ]
-    })
-    
-    $('#edit_screen').hide();   // 최초 편집화면은 숨김
-  })
+
+
+
 </script>
+<style>
+@import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
+
+* {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+   font-family: 'Noto Sans KR', sans-serif;
+}
+
+.logo {
+   display: flex;
+   justify-content: center;
+}
+
+.main {
+   margin: 0 auto;
+   display: flex;
+}
+
+.gnb {
+   display: flex;
+   flex-direction: row;
+   justify-content: space-between;
+   text-align: center;
+ }
+ 
+.gnb ul {
+   margin: 0 auto;  
+   list-style: none;
+   display: flex;
+}
+
+.gnb li {
+   margin: 0 auto;  
+   width: 170px;
+   padding: 30px;
+   text-align: middle;
+ }
+
+li:hover {
+   background-color:  #D064D0;
+}
+
+.main_left {
+   margin-right: 20px;
+
+}
+.main_left ul {
+   margin: 0 auto;  
+   list-style: none;
+   text-align: center;
+}
+
+.main_left li {
+   margin: 0 auto;  
+   width: 140px;
+   padding: 30px;
+ }
+
+table {
+   text-align: center;
+   padding: 20px;
+   width: auto;
+}
+
+#tableEdit {
+  width: 800px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  padding: 30px;
+  padding-left: 40px;
+  padding-right: 50px;
+}
+
+td {
+  padding: 10px;
+  font-size: 13px;
+}
+
+.tb_el:hover {
+   background-color: #D064D0;
+   cursor:pointer;
+}
+
+tr {
+   padding: 5px;
+}
+
+.tb_row input {
+  height: 28px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  width: 250px;
+}
+
+select {
+  height: 28px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+  width: 250px;
+  text-align: center;
+}
+
+.main_right {
+  padding-left: 50px;
+  padding-top: 30px;
+  padding-right: 160px;
+  margin-right: 70px;
+  border: 2px solid gray;
+}
+
+.row_left {
+  width: 130px;
+  background-color: #F0CB85;
+  font-size: 16px;
+}
+
+.row_right {
+  width: 400px;
+
+}
+
+#searchWineP {
+  height: 20px;
+  margin-top: 10px;
+}
+
+#test {
+    background-image: url('../resources/images/bossbaby.png');
+    background-size: 150px;
+    background-repeat: no-repeat;
+}
+
+.row_right {
+  text-align: left;
+  padding-left: 20px;
+}
+
+input {
+  text-align: center;
+}
+
+option {
+  width: 100px;
+}
+
+#btn_three {
+  width: 60px;
+  height: 30px;
+  margin-right: 10px;
+}
+</style>
 </head>
 <body>
 
-  <div id="detail_screen">
-    <h1>${w.prodName}</h1>
-    <div><img src="${w.prodThumbnail}" width="50px"></div>
-    <form id="frm_remove" action="${contextPath}/board/remove.do" method="post">
-      <input type="hidden" name="boardNo">
-    </form>
-    <div>
-      <input type="button" value="편집" onclick="fnEdit()">
-      <input type="button" value="삭제" onclick="fnRemove()">
-      <input type="button" value="목록" onclick="fnList()">
+  <div class="header">
+    <div class="logo">
+      <a href="${contextPath}/admin/main.page">
+        <img src="https://www.winenara.com/asset/images/shop/default/pc_logo.png">
+      </a>
+    </div>
+    <div class="gnb">
+      <ul>
+        <!-- <li id="test"></li> -->
+        <li><a>Wine</a></li>
+        <li><a>New & Best</a></li>
+        <li><a>Board</a></li>
+        <li><a>Introduce us</a></li>
+        <li><a>My Page</a></li>
+      </ul>
     </div>
   </div>
   
-  <div id="edit_screen">
-    <div style="cursor: pointer;" onclick="fnBack()"><i class="fa-solid fa-arrow-left"></i> 뒤로 가기</div>
-    <h1>편집화면</h1>
-    <form method="post" action="${contextPath}/board/modify.do">
-      <div>
-        <label for="title">제목</label>
-        <input type="text" id="title" name="title" >
+  <div class="main">
+    <div class="main_left">
+      <ul>
+        <li>회원관리</li>
+        <li>상품관리</li>
+        <li>주문관리</li>
+        <li>게시판관리</li>
+      </ul>
+    </div>
+    <div class="main_right">
+      <h1>상품 상세</h1>
+      <br>
+      <div class="tableWine">
+        <form method="post" action="${contextPath}/admin/editProduct">
+          <div class="btnDiv">
+            <input type="button" value="편집" onclick="fnEdit()" id="btn_three">
+            <input type="button" value="삭제" onclick="fnRemove()" id="btn_three">
+            <input type="button" value="목록" onclick="fnList()" id="btn_three">
+          </div>
+          <table border="1" id="tableEdit">
+            <tbody>
+              <tr class="tb_row">
+                <td class="row_left">와인번호</td>
+                <td class="row_right"><input type="text" value="${w.prodNo}" disabled="disabled"></td>
+              </tr>
+              <tr class="tb_row">
+                <td class="row_left">이미지</td>
+                <td class="row_right"><img src="${w.prodThumbnail}" width="200px"></td>
+              </tr>
+              <tr class="tb_row">
+                <td class="row_left">와인명(KOR)</td>
+                <td class="row_right"><input type="text" value="${w.prodName}"></td>
+              </tr>
+              <tr class="tb_row">
+                <td class="row_left">와인명(ENG)</td>
+                <td class="row_right"><input type="text" value="${w.prodNameEng}"></td>
+              </tr>
+              <tr class="tb_row">
+                <td class="row_left">가격</td>
+                <td class="row_right"><input type="text" value="${w.prodPrice}"></td>
+              </tr>
+              <tr class="tb_row">
+                <td class="row_left">타입</td>
+                <td class="row_right"><select><option>RED</option><option>WHITE</option><option>ROZE</option><option>SPARKLING</option></select></td>
+              </tr>
+              <tr class="tb_row">
+                <td class="row_left">국가</td>
+                <td class="row_right"><input type="text" value="${w.prodNation}"></td>
+              </tr>
+              <tr class="tb_row">
+                <td class="row_left">알코올</td>
+                <td class="row_right"><input type="text" value="${w.prodAlcohol}"></td>
+              </tr>
+              <tr class="tb_row">
+                <td class="row_left">출시일자</td>
+                <td class="row_right"><input type="text" value="${w.prodDate}"></td>
+              </tr>
+              <tr class="tb_row">
+                <td class="row_left">재고</td>
+                <td class="row_right"><input type="text" value="${w.prodStock}"></td>
+              </tr>
+            </tbody>
+          </table>
+        </form>
       </div>
-      <div>
-        <div><label for="content">내용</label></div>
-        <textarea id="content" name="content"></textarea>  <!-- summernote 편집기로 바뀌는 textarea -->
-      </div>
-      <div>
-        <input type="hidden" name="boardNo">
-        <button>수정완료</button>
-        <input type="button" value="목록" onclick="fnList()">
-      </div>
-    </form>
+    </div>
+  </div>
+  
+  <div class="footer">
+  
   </div>
   
 </body>

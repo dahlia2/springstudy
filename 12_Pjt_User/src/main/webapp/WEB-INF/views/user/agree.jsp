@@ -11,7 +11,6 @@
 <title>Insert title here</title>
 <script src="${contextPath}/resources/js/lib/jquery-3.6.4.min.js"></script>
 <script>
-
   // 취소하면 이전 페이지로 돌아간다.
   function fnCancel(){
 	  $('#btnCancel').on('click', function(){		  
@@ -61,7 +60,6 @@
 	  fnCheckOne();
     fnFrmAgreeSubmit();
   })
-  
 </script>
 </head>
 <body>
