@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>detail</title>
+<title>Product Detail</title>
 <script src="${contextPath}/resources/js/lib/jquery-3.6.4.min.js"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -31,24 +31,18 @@ function fnEdit(){
 	})
 }
 
-$('#btn_three').on('click', function(){
-	function fnRemove(prodNo){
-		type: 'post',
-		url: '${contextPath}/admin/deleteProduct.do',
-		data: prodNo,
-		dataType: 'json',
-		success: function(resData)
-		
-		
+function fnRemove(){
+	if(confirm('상품을 삭제하시겠습니까?')){
+		$('#frm').submit();
 	}
-	
-})
-
-$(function(){
-	function fnRemove(${w.prodNo})
-	
 }
-nRemove(${w.prodNo})
+
+function fnList(){
+		location.href='${contextPath}/admin/product.page';
+}
+	
+	
+
 </script>
 <style>
 @import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
@@ -96,6 +90,7 @@ li:hover {
 
 .main_left {
    margin-right: 20px;
+   margin: 15px;
 
 }
 .main_left ul {
@@ -109,6 +104,11 @@ li:hover {
    width: 140px;
    padding: 30px;
  }
+ 
+.main_left a {
+ text-decoration: none;
+ color: black;
+}
 
 table {
    text-align: center;
@@ -155,16 +155,18 @@ select {
 }
 
 .main_right {
-  padding-left: 50px;
+  padding-left: 70px;
   padding-top: 30px;
   padding-right: 160px;
   margin-right: 70px;
   border: 2px solid gray;
+  border-radius: 7px;
+  width: 1150px;
 }
 
 .row_left {
   width: 120px;
-  background-color: #4D3771;
+  background-color: #8f7e8e;
   color: white;
   font-size: 15px;
   font-weight: 500;
@@ -188,7 +190,7 @@ select {
 
 .row_right {
   text-align: left;
-  padding-left: 20px;
+  padding-left: 40px;
 }
 
 input {
@@ -199,14 +201,42 @@ option {
   width: 100px;
 }
 
-#btn_three {
-  width: 60px;
+#btn_two {
+  width: 77px;
   height: 30px;
   margin-right: 10px;
+  font-size: 15px;
+  border-radius: 7px;
+  cursor: pointer;
 }
 
 #wNo {
   background-color: #dcdcdc;
+}
+
+#goback {
+  font-size: 20px;
+  font-weight: 450px;
+  font-style: italic;
+}
+
+.btnDiv {
+  padding-left: 600px;
+}
+
+#detail_title {
+  padding-left: 260px;
+  font-size: 30px;
+  font-weight: 500;
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+#detail_title p {
+  padding: 3px;
+  border: 3px solid gray;
+  border-radius: 10px;
+  width: 230px;
 }
 </style>
 </head>
@@ -214,8 +244,8 @@ option {
 
   <div class="header">
     <div class="logo">
-      <a href="${contextPath}/admin/main.page">
-        <img src="https://www.winenara.com/asset/images/shop/default/pc_logo.png">
+      <a href="${contextPath}/admin/product.page">
+        <img src="${contextPath}/resources/images/logo.jpg" width="200px">
       </a>
     </div>
     <div class="gnb">
@@ -233,22 +263,24 @@ option {
   <div class="main">
     <div class="main_left">
       <ul>
-        <li>회원관리</li>
-        <li>상품관리</li>
+        <li><a href="${contextPath}/admin/user.page">회원관리</a></li>
+        <li><a href="${contextPath}/admin/product.page">상품관리</a></li>
         <li>주문관리</li>
         <li>게시판관리</li>
       </ul>
     </div>
+    
     <div class="main_right">
-      <h1>상품 상세</h1>
-      <br>
+    
+     <div style="cursor: pointer;" id="goback"><i class="fa-solid fa-circle-left" style="color: #606060;" onclick="fnList()">&nbsp; 목록으로</i></div>
+      <div id="detail_title"><p>&nbsp; 상품 상세 &nbsp;</p></div>
       <div class="tableWine">
-        <form id="frm">
+        <form id="frm" action="${contextPath}/admin/removeProduct.do" method="post">
           <div class="btnDiv">
-            <input type="button" value="편집" onclick="fnEdit()" id="btn_three">
-            <input type="button" value="삭제" onclick="fnRemove(${w.prodNo})" id="btn_three">
-            <input type="button" value="목록" onclick="fnList()" id="btn_three">
+            <input type="button" value="편집" onclick="fnEdit()" id="btn_two">
+            <input type="button" value="삭제" onclick="fnRemove()" id="btn_two">
           </div>
+          <input type="hidden" name="wineNo" value="${w.prodNo}">
           <table border="1" id="tableEdit">
               <tbody>
                 <tr class="tb_row">

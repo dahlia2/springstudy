@@ -1,10 +1,12 @@
 package com.gdu.vinery.service;
 
+import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,15 +21,12 @@ public class AdminServiceImpl implements AdminService {
 	@Autowired
 	private AdminMapper adminMapper;
 	
+	
 	@Override
 	public List<ProductDTO> selectProduct() {
 		return adminMapper.selectProduct();
 	}
 	
-	@Override
-	public List<UserDTO> selectUsers() {
-	  return adminMapper.selectUsers();
-	}
 	
 	@Override
 	public ProductDTO selectProductByNo(HttpServletRequest request) {
@@ -40,7 +39,6 @@ public class AdminServiceImpl implements AdminService {
 	  return adminMapper.selectProductByNo(prodNo);
 	}
 	
-
   @Override
   public Map<String, Object> modifyProduct(HttpServletRequest request)  {
 	int prodNo = Integer.parseInt(request.getParameter("wNo"));
@@ -85,5 +83,37 @@ public class AdminServiceImpl implements AdminService {
     return map;
     
 	}
+  
+
+  @Override
+  public void removeProduct(HttpServletRequest request, HttpServletResponse response) {
+    int wNo = Integer.parseInt(request.getParameter("wNo"));
+    int removeResult = adminMapper.deleteProduct(wNo);
+    
+    try {
+      response.setContentType("text/html; charset=UTF-8");
+      PrintWriter out = response.getWriter();
+  
+      out.println("<script>");
+      if(removeResult == 1) {
+        out.println("alert('상품이 삭제되었습니다.')");
+        out.println("location.href='" + request.getContextPath() + "/admin/product.page'");
+      } else {
+        out.println("alert('상품이 삭제되지 않았습니다.')");
+        out.println("history.back()");
+      }
+      out.println("</script>");
+      out.flush();
+      out.close();
+    } catch (Exception e) {
+     e.printStackTrace();
+    }
+    
+  }
+  
+  @Override
+  public List<UserDTO> selectUsers() {
+    return adminMapper.selectUsers();
+  }
 	
 }

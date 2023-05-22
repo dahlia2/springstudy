@@ -11,9 +11,12 @@ import com.gdu.vinery.domain.UserDTO;
 @Mapper
 public interface AdminMapper {
 	
+  // 상품관리
 	public List<ProductDTO> selectProduct();
-	public List<UserDTO> selectUsers();
 	public ProductDTO selectProductByNo(int prodNo);
   public int modifyProduct(ProductDTO product);
+  public int deleteProduct(int wNo);
 
+  // 회원관리
+  public List<UserDTO> selectUsers();
 }

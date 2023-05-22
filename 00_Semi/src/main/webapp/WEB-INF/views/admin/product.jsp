@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>detail</title>
+<title>Product List</title>
 <script src="${contextPath}/resources/js/lib/jquery-3.6.4.min.js"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -103,6 +103,7 @@ li:hover {
 
 .main_left {
    margin-right: 20px;
+   margin: 15px;
 
 }
 .main_left ul {
@@ -117,6 +118,11 @@ li:hover {
    padding: 30px;
  }
  
+ .main_left a {
+   text-decoration: none;
+   color: black;
+ }
+ 
 .tableWine {
   width: 1200px;
 }
@@ -125,7 +131,7 @@ table {
    text-align: center;
    margin-top: 30px;
    margin-bottom: 50px;
-   padding: 14px;
+   padding: 30px;
 }
 
 td {
@@ -135,7 +141,7 @@ td {
 }
 
 .tb_el:hover {
-   background-color: #E7D9FE;
+   background-color: #d3e3d3;
    cursor:pointer;
 }
 
@@ -147,7 +153,7 @@ tr {
    font-size: 15px;
    font-weight: 500;
    color: white;
-   background-color: #790D98;
+   background-color: #8e7583;
 }
 
 .main_right {
@@ -155,7 +161,8 @@ tr {
   padding-top: 30px;
   padding-right: 120px;
   border: 2px solid gray;
-  width: 1100px;
+  width: 1150px;
+  border-radius: 7px;
 }
 
 #searchWineP {
@@ -169,14 +176,21 @@ tr {
     background-repeat: no-repeat;
 }
 
+#left_prod {
+text-decoration: none;
+color: black;
+  
+
+}
+
 </style>
 </head>
 <body>
 
   <div class="header">
     <div class="logo">
-      <a href="${contextPath}/admin/main.page">
-        <img src="https://www.winenara.com/asset/images/shop/default/pc_logo.png">
+      <a href="${contextPath}/admin/product.page">
+        <img src="${contextPath}/resources/images/logo.jpg" width="200px">
       </a>
     </div>
     <div class="gnb">
@@ -194,8 +208,8 @@ tr {
   <div class="main">
     <div class="main_left">
     <ul>
-      <li>회원관리</li>
-      <li>상품관리</li>
+      <li><a href="${contextPath}/admin/user.page">회원관리</a></li>
+      <li><a href="${contextPath}/admin/product.page">상품관리</a></li>
       <li>주문관리</li>
       <li>게시판관리</li>
     </ul>
@@ -238,9 +252,24 @@ tr {
         </thead>
         <tbody>
         <c:forEach items="${wineList}" var="wine" varStatus="vs">
+        <c:choose>
+            <c:when test="${wine.prodType eq 'RED'}">
+              <c:set var="color" value="#eedcdc" />
+            </c:when>
+            <c:when test="${wine.prodType eq 'ROSE'}">
+              <c:set var="color" value="#fdddf4" />
+            </c:when>
+            <c:when test="${wine.prodType eq 'SPARKLING'}">
+              <c:set var="color" value="#ddf2fd" />
+            </c:when>
+            <c:otherwise>
+              <c:set var="color" value="#fdf7dd" />
+            </c:otherwise>
+        </c:choose>
+
           <tr class="tb_el">
-            <td class="elwine" id="wineNo">${wine.prodNo}</td>
-            <td class="elwine"><img src="${wine.prodThumbnail}" width="90px"></td>
+            <td class="elwine" id="wineNo" style="font-size: 18px; font-weight: 500;">${wine.prodNo}</td>
+            <td class="elwine" style="background:${color}"><img src="${wine.prodThumbnail}" width="90px"></td>
             <td class="elwine">${wine.prodName}</td>
             <td class="elwine">${wine.prodNameEng}</td>
             <td class="elwine">${wine.prodType}</td>

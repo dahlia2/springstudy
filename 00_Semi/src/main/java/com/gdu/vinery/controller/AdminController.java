@@ -4,10 +4,10 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -49,7 +49,7 @@ public class AdminController {
 	public String memberList(Model model) {
 	  List<UserDTO> userList = adminService.selectUsers();
 	  model.addAttribute("userList", userList);
-		return "admin/user";	
+		return "admin/userr";	
 	}
 	
 	@GetMapping("/board.page")
@@ -67,5 +67,13 @@ public class AdminController {
 	 public Map<String, Object> modifyProduct(HttpServletRequest request) {
     return adminService.modifyProduct(request);
 	}
+	
+	@PostMapping("/removeProduct.do")
+	public void removeProduct(HttpServletRequest request, HttpServletResponse response) {
+	  adminService.removeProduct(request, response);
+	  
+	}
+	
+	
 	
 }

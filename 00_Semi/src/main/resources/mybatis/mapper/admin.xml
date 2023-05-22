@@ -33,4 +33,10 @@
       FROM USERS
   </select>
   
+  <delete id="deleteProduct" parameterType="int">
+    DELETE 
+      FROM PRODUCT
+     WHERE PROD_NO = #{prodNo}
+  </delete>
+  
 </mapper>
