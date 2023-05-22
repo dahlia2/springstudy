@@ -30,6 +30,25 @@ function fnEdit(){
 		}
 	})
 }
+
+$('#btn_three').on('click', function(){
+	function fnRemove(prodNo){
+		type: 'post',
+		url: '${contextPath}/admin/deleteProduct.do',
+		data: prodNo,
+		dataType: 'json',
+		success: function(resData)
+		
+		
+	}
+	
+})
+
+$(function(){
+	function fnRemove(${w.prodNo})
+	
+}
+nRemove(${w.prodNo})
 </script>
 <style>
 @import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
@@ -145,7 +164,8 @@ select {
 
 .row_left {
   width: 120px;
-  background-color: #C39873;
+  background-color: #4D3771;
+  color: white;
   font-size: 15px;
   font-weight: 500;
 }
@@ -226,7 +246,7 @@ option {
         <form id="frm">
           <div class="btnDiv">
             <input type="button" value="편집" onclick="fnEdit()" id="btn_three">
-            <input type="button" value="삭제" onclick="fnRemove()" id="btn_three">
+            <input type="button" value="삭제" onclick="fnRemove(${w.prodNo})" id="btn_three">
             <input type="button" value="목록" onclick="fnList()" id="btn_three">
           </div>
           <table border="1" id="tableEdit">

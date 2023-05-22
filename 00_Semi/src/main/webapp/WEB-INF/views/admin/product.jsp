@@ -135,7 +135,7 @@ td {
 }
 
 .tb_el:hover {
-   background-color: yellow;
+   background-color: #E7D9FE;
    cursor:pointer;
 }
 
@@ -146,7 +146,8 @@ tr {
 #tb_column {
    font-size: 15px;
    font-weight: 500;
-   background-color: orange;
+   color: white;
+   background-color: #790D98;
 }
 
 .main_right {

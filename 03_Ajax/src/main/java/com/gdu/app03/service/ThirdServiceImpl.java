@@ -18,7 +18,7 @@ public class ThirdServiceImpl implements IThirdService {
 		}
 		
 		// 이름과 전화번호가 공백이 아닌 경우 입력된 값 그대로 다시 돌려보내기 ($.ajax의 success로 전달)
-		return new ResponseEntity<Contact>(contact  HttpStatus.OK);
+		return new ResponseEntity<Contact>(HttpStatus.OK);
 		
 	}
 

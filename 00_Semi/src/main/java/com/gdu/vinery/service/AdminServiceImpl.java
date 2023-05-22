@@ -1,6 +1,5 @@
 package com.gdu.vinery.service;
 
-import java.sql.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,18 +42,25 @@ public class AdminServiceImpl implements AdminService {
 	
 
   @Override
-  public Map<String, Object> modifyProduct(HttpServletRequest request) {
-    System.out.println(request.getParameter("wNo"));
-    System.out.println(request.getParameter("wNameEng"));
-    System.out.println(request.getParameter("wPrice"));
-	  int prodNo = Integer.parseInt(request.getParameter("wNo"));
-	  String prodName = request.getParameter("wName");
-	  String prodNameEng = request.getParameter("wNameEng");
-	  int prodPrice = Integer.parseInt(request.getParameter("wPrice"));
+  public Map<String, Object> modifyProduct(HttpServletRequest request)  {
+	int prodNo = Integer.parseInt(request.getParameter("wNo"));
+	String prodName = request.getParameter("wName");
+	String prodNameEng = request.getParameter("wNameEng");
+	int prodPrice = Integer.parseInt(request.getParameter("wPrice"));
     String prodNation = request.getParameter("wNation");
     String prodAlcohol = request.getParameter("wAlcohol");
     int prodStock = Integer.parseInt(request.getParameter("wStock"));
+    /* String prodDate = request.getParameter("wprodDate");
     
+    Date date = null;
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+    try {
+		date = (Date) sdf.parse(prodDate);
+	} catch (ParseException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	} */
+   
     ProductDTO product = new ProductDTO();
     product.setProdNo(prodNo);
     product.setProdName(prodName);
@@ -63,6 +69,7 @@ public class AdminServiceImpl implements AdminService {
     product.setProdNation(prodNation);
     product.setProdAlcohol(prodAlcohol);
     product.setProdStock(prodStock);
+    // product.setProdDate(date);
     
     adminMapper.modifyProduct(product);
     
