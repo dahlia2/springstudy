@@ -14,6 +14,7 @@
   <typeAliases>
     <typeAlias alias="ProductDTO" type="com.gdu.vinery.domain.ProductDTO" />
     <typeAlias alias="UserDTO" type="com.gdu.vinery.domain.UserDTO" />
+    <typeAlias alias="NoticeDTO" type="com.gdu.vinery.domain.NoticeDTO" />
   </typeAliases>
 
 </configuration>

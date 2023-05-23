@@ -15,36 +15,9 @@
 <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <script>
-$(function() {
-  
-    $("#datepicker1, #datepicker2").datepicker({
-      
-           dateFormat: 'yy-mm-dd'   // 달력 날짜 형태
-           ,showOtherMonths: true   // 빈 공간에 현재월의 앞뒤월의 날짜를 표시
-           ,showMonthAfterYear:true // 월- 년 순서가아닌 년도 - 월 순서
-           ,changeYear: true   // option값 '년' 선택 가능
-           ,changeMonth: true  // option값 '월' 선택 가능                
-           ,showOn: "both"     // button: 버튼을 표시하고, 버튼을 눌러야만 달력 표시 ^ both:버튼을 표시하고, 버튼을 누르거나 input을 클릭하면 달력 표시
-           ,buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif"  // 버튼 이미지 경로
-           ,buttonImageOnly: true  // 버튼 이미지만 깔끔하게 보이게함
-           ,buttonText: "선택"     // 버튼 호버 텍스트              
-           ,yearSuffix: "년"       // 달력의 년도 부분 뒤 텍스트
-           ,monthNamesShort: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월']  // 달력의 월 부분 텍스트
-           ,monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월']       // 달력의 월 부분 Tooltip
-           ,dayNamesMin: ['일','월','화','수','목','금','토']                           // 달력의 요일 텍스트
-           ,dayNames: ['일요일','월요일','화요일','수요일','목요일','금요일','토요일']  // 달력의 요일 Tooltip
-           ,minDate: "-5Y"    // 최소 선택일자(-1D:하루전, -1M:한달전, -1Y:일년전)
-           ,maxDate: "+5Y"    // 최대 선택일자(+1D:하루후, -1M:한달후, -1Y:일년후)  
-       });                    
-       
-    // 초기값을 오늘 날짜로 설정
-    $("#datepicker1, #datepicker2").datepicker('setDate', 'today');  // (-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후)
-});
-</script>
-<script>
 $(function(){
     $('.elwine').on('click', function(){
-      location.href='${contextPath}/admin/detailWine.page?prodNo=' + $(this).siblings('#wineNo').text();
+      location.href='${contextPath}/admin/detailProd.page?prodNo=' + $(this).siblings('#wineNo').text();
     });
   })
 
@@ -54,6 +27,36 @@ $(function(){
     $('#text').show();
   })
 })
+
+function fnAdd(){
+	location.href= '${contextPath}/admin/addProd.page';
+}
+
+$(function(){
+	
+   if('${addResult}' != '') {
+	      if('${addResult}' == '1') {
+	        alert('상품 추가가 완료되었습니다.');
+	      } else {
+	        alert('상품 추가가 실패되었습니다.');
+	        history.back();	        
+	      }
+	 }
+   
+})
+
+$(function(){
+    $('#recordPerPage').on('change', function(){
+      location.href = '${contextPath}/admin/change/record.do?recordPerPage=' + $(this).val();
+    })
+    
+    let recordPerPage = '${sessionScope.recordPerPage}' == '' ? '10' : '${sessionScope.recordPerPage}';
+    $('#recordPerPage').val(recordPerPage);
+    
+    $('.title').on('click', function(){
+    	 location.href='${contextPath}/admin/pagination.do?column=' + $(this).data('column') + '&order=' + $(this).data('order') + '&page=${page}';
+    })
+ })
   
 </script>
 <style>
@@ -104,8 +107,8 @@ li:hover {
 .main_left {
    margin-right: 20px;
    margin: 15px;
-
 }
+
 .main_left ul {
    margin: 0 auto;  
    list-style: none;
@@ -157,17 +160,17 @@ tr {
 }
 
 .main_right {
-  padding-left: 30px;
-  padding-top: 30px;
-  padding-right: 120px;
-  border: 2px solid gray;
-  width: 1150px;
-  border-radius: 7px;
+    padding-left: 30px;
+    padding-top: 30px;
+    padding-right: 120px;
+    border: 2px solid gray;
+    width: 1200px;
+    border-radius: 7px;
 }
 
 #searchWineP {
-  height: 20px;
-  margin-top: 10px;
+    height: 20px;
+    margin-top: 10px;
 }
 
 #test {
@@ -177,10 +180,17 @@ tr {
 }
 
 #left_prod {
-text-decoration: none;
-color: black;
-  
+  text-decoration: none;
+  color: black;
+}
 
+#addProd {
+  display: block;
+  margin-left: 900px;
+  font-size: 23px;
+  width: 150px;
+  font-weight: 530;
+  ba
 }
 
 </style>
@@ -189,7 +199,7 @@ color: black;
 
   <div class="header">
     <div class="logo">
-      <a href="${contextPath}/admin/product.page">
+      <a href="${contextPath}/admin/prodList.page">
         <img src="${contextPath}/resources/images/logo.jpg" width="200px">
       </a>
     </div>
@@ -208,10 +218,10 @@ color: black;
   <div class="main">
     <div class="main_left">
     <ul>
-      <li><a href="${contextPath}/admin/user.page">회원관리</a></li>
-      <li><a href="${contextPath}/admin/product.page">상품관리</a></li>
-      <li>주문관리</li>
-      <li>게시판관리</li>
+      <li><a href="${contextPath}/admin/userList.page">회원관리</a></li>
+      <li><a href="${contextPath}/admin/prodList.page">상품관리</a></li>
+      <li><a href="${contextPath}/admin/orderList.page">주문관리</a></li>
+      <li><a href="${contextPath}/admin/noticeList.page">게시판관리</a></li>
     </ul>
     
     </div>
@@ -224,31 +234,22 @@ color: black;
            <option value="20">20개</option>
            <option value="30">30개</option>
          </select>
-      
-      <div class="searchWine">
-         <p id="searchWineP">출시일자 :&nbsp; 
-           <input type="text" id="datepicker1">
-           ~
-           <input type="text" id="datepicker2">
-           &nbsp;
-           <input type="button" value="검색" onclick="fnSearch()">
-         </p>
-      </div>
-      
+     
+      <input type="button" value="상품 등록" onclick="fnAdd()" id="addProd">
       <div class="tableWine">
        <table border="1" id="tableWineAll">
         <thead>
           <tr id="tb_column">
-            <td><span class="title" data-column="P.PROD_NO" data-order="${order}">번호</span></td>
+            <td><span class="title" data-column="P.PROD_NO" data-order="${order}">품번</span></td>
             <td><span class="title" data-column="P.PROD_THUMBNAIL" data-order="${order}">IMG</span></td>
-            <td><span class="title" data-column="P.PROD_NAME" data-order="${order}">상품명(KOR)</span></td>
-            <td><span class="title" data-column="P.PROD_NAME_ENG" data-order="${order}">상품명(ENG)</span></td>
-            <td><span class="title" data-column="P.PROD_TYPE" data-order="${order}">타입</span></td>
-            <td><span class="title" data-column="P.PROD_NATION" data-order="${order}">국가</span></td>
+            <td><span class="title" data-column="P.PROD_NAME" data-order="${order}">품명(KR)</span></td>
+            <td><span class="title" data-column="P.PROD_NAME_ENG" data-order="${order}">품명(EN)</span></td>
+            <td><span class="title" data-column="P.PROD_TYPE" data-order="${order}">종류</span></td>
+            <td><span class="title" data-column="P.PROD_NATION" data-order="${order}">원산지</span></td>
             <td><span class="title" data-column="P.PROD_BODY" data-order="${order}">바디감</span></td>
             <td><span class="title" data-column="P.PROD_ALCOHOL" data-order="${order}">도수</span></td>
             <td><span class="title" data-column="P.PROD_DATE" data-order="${order}">출시일자</span></td>
-            <td><span class="title" data-column="P.PROD_STOCK" data-order="${order}">재고량</span></td>
+            <td><span class="title" data-column="P.PROD_STOCK" data-order="${order}">재고</span></td>
         </thead>
         <tbody>
         <c:forEach items="${wineList}" var="wine" varStatus="vs">

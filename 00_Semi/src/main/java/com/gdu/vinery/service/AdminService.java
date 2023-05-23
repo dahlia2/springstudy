@@ -6,17 +6,28 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.ui.Model;
+
+import com.gdu.vinery.domain.NoticeDTO;
 import com.gdu.vinery.domain.ProductDTO;
 import com.gdu.vinery.domain.UserDTO;
 
 public interface AdminService {
 	
   // 상품관리
-	public List<ProductDTO> selectProduct();
-	public ProductDTO selectProductByNo(HttpServletRequest request);
-	public Map<String, Object> modifyProduct(HttpServletRequest request);
-	public void removeProduct(HttpServletRequest request, HttpServletResponse response);
+	public List<ProductDTO> selectProd();
+	public ProductDTO selectProdByNo(HttpServletRequest request);
+	public Map<String, Object> modifyProd(HttpServletRequest request);
+	public void removeProd(HttpServletRequest request, HttpServletResponse response);
+	public int insertProd(HttpServletRequest request);
+	public void getProdListUsingPagination(HttpServletRequest request, Model model);
 	
+	
+	// 회원관리
 	public List<UserDTO> selectUsers();
+	
+	
+	// 공지관리
+  public List<NoticeDTO> selectNotices();
 
 }

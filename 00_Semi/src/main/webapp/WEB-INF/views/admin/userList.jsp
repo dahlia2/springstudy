@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Product List</title>
+<title>User List</title>
 <script src="${contextPath}/resources/js/lib/jquery-3.6.4.min.js"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -41,20 +41,14 @@ $(function() {
     $("#datepicker1, #datepicker2").datepicker('setDate', 'today');  // (-1D:하루전, -1M:한달전, -1Y:일년전), (+1D:하루후, -1M:한달후, -1Y:일년후)
 });
 </script>
+
+
 <script>
 $(function(){
     $('.elwine').on('click', function(){
-      location.href='${contextPath}/admin/detailWine.page?prodNo=' + $(this).siblings('#wineNo').text();
+      location.href='${contextPath}/admin/detailProd.page?prodNo=' + $(this).siblings('#wineNo').text();
     });
   })
-
-$(function(){
-  $('#text').hide();
-  $('.elwine').on('mouseover', function(){
-    $('#text').show();
-  })
-})
-  
 </script>
 <style>
 @import url(//fonts.googleapis.com/earlyaccess/notosanskr.css);
@@ -123,7 +117,7 @@ li:hover {
    color: black;
  }
  
-.tableWine {
+.tableUser {
   width: 1200px;
 }
 
@@ -182,7 +176,7 @@ tr {
 
   <div class="header">
     <div class="logo">
-      <a href="${contextPath}/admin/product.page">
+      <a href="${contextPath}/admin/prodList.page">
         <img src="${contextPath}/resources/images/logo.jpg" width="200px">
       </a>
     </div>
@@ -200,35 +194,24 @@ tr {
   
   <div class="main">
     <div class="main_left">
-    <ul>
-      <li><a href="${contextPath}/admin/user.page">회원관리</a></li>
-      <li><a href="${contextPath}/admin/product.page">상품관리</a></li>
-      <li>주문관리</li>
-      <li>게시판관리</li>
-    </ul>
-    
+      <ul>
+        <li><a href="${contextPath}/admin/userList.page">회원관리</a></li>
+        <li><a href="${contextPath}/admin/prodList.page">상품관리</a></li>
+        <li><a href="${contextPath}/admin/orderList.page">주문관리</a></li>
+        <li><a href="${contextPath}/admin/noticeList.page">게시판관리</a></li>
+      </ul>
     </div>
     <div class="main_right">
-    <h1>상품관리 <i class="fa-solid fa-wine-glass fa-beat-fade"></i></h1>
+    <h1>회원관리 <i class="fa-solid fa-user fa-bounce"></i></h1>
       <br>
-         <span>정렬개수 :&nbsp;</span>
-         <select id="recordPerPage">
-           <option value="10">10개</option>
-           <option value="20">20개</option>
-           <option value="30">30개</option>
-         </select>
       
       <div class="searchWine">
-         <p id="searchWineP">출시일자 :&nbsp; 
-           <input type="text" id="datepicker1">
-           ~
-           <input type="text" id="datepicker2">
-           &nbsp;
-           <input type="button" value="검색" onclick="fnSearch()">
+         <p id="searchWineP">가입일자 :&nbsp; 
+         <input type="text" id="datepicker1">~<input type="text" id="datepicker2">&nbsp;<input type="button" value="검색" onclick="fnSearch()">
          </p>
       </div>
       
-      <div class="tableWine">
+      <div class="tableUser">
         <table border="1">
         <thead>
           <tr id="tb_column">
@@ -238,28 +221,32 @@ tr {
             <td><span class="title" data-column="U.USER_TEL" data-order="${order}">전화번호</span></td>
             <td><span class="title" data-column="U.USER_EMAIL" data-order="${order}">이메일</span></td>
             <td><span class="title" data-column="U.USER_BIRTH" data-order="${order}">생년월일</span></td>
+            <td><span class="title" data-column="U.USER_GENDER" data-order="${order}">성별</span></td>
+            <td><span class="title" data-column="U.USER_JOINED_AT" data-order="${order}">가입일자</span></td>
         </thead>
         <tbody>
-          <c:forEach items="${userList}" var="user" varStatus="vs">
+          <c:forEach items="${memberList}" var="member" varStatus="vs">
             <tr>
-              <td>${user.userNo}</td>
-              <td>${user.userId}</td>
-              <td>${user.userName}</td>
-              <td>${user.userTel}</td>
-              <td>${user.userEmail}</td>
-              <td>${user.userBirth}</td>
+              <td>${member.userNo}</td>
+              <td>${member.userId}</td>
+              <td>${member.userName}</td>
+              <td>${member.userTel}</td>
+              <td>${member.userEmail}</td>
+              <td>${member.userBirth}</td>
+              <td>${member.userGender}</td>
+              <td>${member.userJoinedAt}</td>
             </tr>
          </c:forEach>
         </tbody>
         <tfoot>
           <tr>
-            <td colspan="12">
+            <td colspan="8">
               ${pagination}
             </td>
           </tr>
         </tfoot>
       </table>
-      </div>
+     </div>
     
     </div>
   </div>

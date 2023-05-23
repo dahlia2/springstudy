@@ -53,18 +53,18 @@ CREATE SEQUENCE REVIEW_SEQ NOCACHE;
 
 -- 상품 
 CREATE TABLE PRODUCT (
-    PROD_NO        NUMBER NOT NULL,
-    PROD_NAME      VARCHAR2(60)  NOT NULL,      -- 품번
-    PROD_NAME_ENG  VARCHAR2(60)  NOT NULL,      -- 품명(KR)
-    PROD_PRICE     NUMBER        NOT NULL,      -- 품명(EN)
-    PROD_CONTENT   CLOB          NOT NULL,      -- 가격
-    PROD_THUMBNAIL VARCHAR2(100) NOT NULL,      -- 상세설명
-    PROD_IMG       CLOB          NOT NULL,      -- 썸네일
-    PROD_TYPE      VARCHAR2(20)  NOT NULL,      -- 이미지
-    PROD_NATION    VARCHAR2(100) NOT NULL,      -- 종류
-    PROD_BODY      VARCHAR2(30)  NOT NULL,      -- 원산지
-    PROD_ALCOHOL   VARCHAR2(30)  NOT NULL,      -- 바디감
-    PROD_DATE      DATE          NOT NULL,      -- 도수
+    PROD_NO        NUMBER NOT NULL,             -- 품번
+    PROD_NAME      VARCHAR2(60)  NOT NULL,      -- 품명(KR)
+    PROD_NAME_ENG  VARCHAR2(60)  NOT NULL,      -- 품명(EN)
+    PROD_PRICE     NUMBER        NOT NULL,      -- 가격
+    PROD_CONTENT   CLOB          NOT NULL,      -- 상세설명
+    PROD_THUMBNAIL VARCHAR2(100) NOT NULL,      -- 제품이미지
+    PROD_IMG       CLOB          NOT NULL,      -- 내용이미지
+    PROD_TYPE      VARCHAR2(20)  NOT NULL,      -- 종류
+    PROD_NATION    VARCHAR2(100) NOT NULL,      -- 원산지
+    PROD_BODY      VARCHAR2(30)  NOT NULL,      -- 바디감
+    PROD_ALCOHOL   VARCHAR2(30)  NOT NULL,      -- 도수
+    PROD_DATE      DATE          NOT NULL,      -- 출시일자
     PROD_STOCK     NUMBER        NOT NULL,      -- 재고
     CONSTRAINT PK_PRODUCT PRIMARY KEY(PROD_NO)
 );
@@ -282,11 +282,12 @@ CREATE TABLE NOTICE (
     NOTICE_NO           NUMBER           NOT NULL,             -- 공지 번호      
     NOTICE_TITLE        VARCHAR2(50)     NOT NULL,             -- 제목         
     NOTICE_CONTENT      CLOB             NOT NULL,             -- 내용
-    NOTICE_IMG          VARCHAR2(30)     NOT NULL,             -- 공지글 이미지
+    NOTICE_IMG          CLOB     NOT NULL,             -- 공지글 이미지
     NOTICE_CREATED_AT   DATE             NOT NULL,             -- 공지 등록일
     NOTICE_GUBUN        NUMBER           NOT NULL,             -- 공지글 카테고리(공지:0, 이벤트:1, 자주묻는질문:2)   
     CONSTRAINT PK_NOTICE PRIMARY KEY(NOTICE_NO)
 );
+
 
 -- 공지사항 첨부
 CREATE TABLE NOTICE_ATTACH (
@@ -313,4 +314,7 @@ CREATE TABLE QNA (
     CONSTRAINT PK_QNA PRIMARY KEY(QNA_NO),
     CONSTRAINT FK_QNA_USERS FOREIGN KEY(USER_NO) REFERENCES USERS(USER_NO) ON DELETE CASCADE
 );
+
+INSERT INTO NOTICE VALUES(NOTICE_SEQ.NEXTVAL, '첫 번째 공지', '가나다라마바사', 'https://www.winenara.com/uploads/editor/20230510104045540638455.png', '2023-04-13', '1');
+COMMIT;
 

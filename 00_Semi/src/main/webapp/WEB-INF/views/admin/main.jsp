@@ -8,22 +8,22 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>detail</title>
+<title>Main</title>
 <script src="${contextPath}/resources/js/lib/jquery-3.6.4.min.js"></script>
 </head>
 <body>
 
 	<div>
-		<a href="${contextPath}/admin/product.page">상품 관리</a>
+		<a href="${contextPath}/admin/prodList.page">상품관리</a>
 	</div>
 	<div>
-		<a href="${contextPath}/admin/user.page">회원 관리</a>
+		<a href="${contextPath}/admin/userList.page">회원관리</a>
 	</div>
 	<div>
-		<a href="${contextPath}/admin/board.page">게시판 관리</a>
+		<a href="${contextPath}/admin/orderList.page">주문관리</a>
 	</div>
 	<div>
-		<a href="${contextPath}/admin/order.page">주문 관리</a>
+		<a href="${contextPath}/admin/noticeList.page">게시판관리</a>
 	</div>
 	
 </body>

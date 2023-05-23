@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Product Detail</title>
+<title>Product Add</title>
 <script src="${contextPath}/resources/js/lib/jquery-3.6.4.min.js"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -16,32 +16,9 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <script>
 
-function fnEdit(){
-	$.ajax({
-		type: 'post',
-		url: '${contextPath}/admin/modifyProduct.do',
-		data: $('#frm').serialize(),
-		dataType: 'json',
-		success: function(resData) {
-			alert('수정이 완료되었습니다.'); 
-		},
-		error: function(jqXHR) {
-			alert('수정이 실패되었습니다. 입력값을 확인해주세요.');
-		}
-	})
-}
-
-function fnRemove(){
-	if(confirm('상품을 삭제하시겠습니까?')){
-		$('#frm').submit();
-	}
-}
-
 function fnList(){
-		location.href='${contextPath}/admin/product.page';
+		location.href='${contextPath}/admin/prodList.page';
 }
-	
-	
 
 </script>
 <style>
@@ -116,7 +93,7 @@ table {
    width: auto;
 }
 
-#tableEdit {
+#tableAdd {
   width: 800px;
   margin-top: 20px;
   margin-bottom: 20px;
@@ -201,15 +178,6 @@ option {
   width: 100px;
 }
 
-#btn_two {
-  width: 77px;
-  height: 30px;
-  margin-right: 10px;
-  font-size: 15px;
-  border-radius: 7px;
-  cursor: pointer;
-}
-
 #wNo {
   background-color: #dcdcdc;
 }
@@ -224,7 +192,7 @@ option {
   padding-left: 600px;
 }
 
-#detail_title {
+#add_title {
   padding-left: 260px;
   font-size: 30px;
   font-weight: 500;
@@ -232,7 +200,7 @@ option {
   margin-bottom: 15px;
 }
 
-#detail_title p {
+#add_title p {
   padding: 3px;
   border: 3px solid gray;
   border-radius: 10px;
@@ -244,7 +212,7 @@ option {
 
   <div class="header">
     <div class="logo">
-      <a href="${contextPath}/admin/product.page">
+      <a href="${contextPath}/admin/prodList.page">
         <img src="${contextPath}/resources/images/logo.jpg" width="200px">
       </a>
     </div>
@@ -263,67 +231,89 @@ option {
   <div class="main">
     <div class="main_left">
       <ul>
-        <li><a href="${contextPath}/admin/user.page">회원관리</a></li>
-        <li><a href="${contextPath}/admin/product.page">상품관리</a></li>
-        <li>주문관리</li>
-        <li>게시판관리</li>
+        <li><a href="${contextPath}/admin/userList.page">회원관리</a></li>
+        <li><a href="${contextPath}/admin/prodList.page">상품관리</a></li>
+        <li><a href="${contextPath}/admin/orderList.page">주문관리</a></li>
+        <li><a href="${contextPath}/admin/noticeList.page">게시판관리</a></li>
       </ul>
     </div>
     
     <div class="main_right">
     
-     <div style="cursor: pointer;" id="goback"><i class="fa-solid fa-circle-left" style="color: #606060;" onclick="fnList()">&nbsp; 목록으로</i></div>
-      <div id="detail_title"><p>&nbsp; 상품 상세 &nbsp;</p></div>
+      <div id="add_title"><p>&nbsp; 상품 등록 &nbsp;</p></div>
       <div class="tableWine">
-        <form id="frm" action="${contextPath}/admin/removeProduct.do" method="post">
-          <div class="btnDiv">
-            <input type="button" value="편집" onclick="fnEdit()" id="btn_two">
-            <input type="button" value="삭제" onclick="fnRemove()" id="btn_two">
-          </div>
-          <input type="hidden" name="wineNo" value="${w.prodNo}">
-          <table border="1" id="tableEdit">
+        <form id="frm" action="${contextPath}/admin/addProd.do" method="post">
+          <button>등록하기</button>
+          <table border="1" id="tableAdd">
               <tbody>
                 <tr class="tb_row">
-                  <td class="row_left">와인번호</td>
-                  <td class="row_right"><input type="text" value="${w.prodNo}" id="wNo" name="wNo" readonly="readonly"></td>
+                  <td class="row_left">품명(KR)</td>
+                  <td class="row_right"><input type="text" name="wName"></td>
                 </tr>
                 <tr class="tb_row">
-                  <td class="row_left">이미지</td>
-                  <td class="row_right"><img src="${w.prodThumbnail}" width="200px"></td>
+                  <td class="row_left">품명(EN)</td>
+                  <td class="row_right"><input type="text" name="wNameEng"></td>
                 </tr>
                 <tr class="tb_row">
-                  <td class="row_left">와인명(KOR)</td>
-                  <td class="row_right"><input type="text" value="${w.prodName}" id="wName" name="wName"></td>
-                </tr>
-                <tr class="tb_row">
-                  <td class="row_left">와인명(ENG)</td>
-                  <td class="row_right"><input type="text" value="${w.prodNameEng}" id="wNameEng" name="wNameEng"></td>
+                  <td class="row_left">제품이미지</td>
+                  <td class="row_right"><input type="text" name="wThumb" placeholder="이미지 주소를 입력해주세요."></td>
                 </tr>
                 <tr class="tb_row">
                   <td class="row_left">가격</td>
-                  <td class="row_right"><input type="text" value="${w.prodPrice}" id="wPrice" name="wPrice"></td>
+                  <td class="row_right"><input type="text" name="wPrice"></td>
                 </tr>
                 <tr class="tb_row">
-                  <td class="row_left">타입</td>
-                  <td class="row_right"><select><option>RED</option><option>WHITE</option><option>ROSE</option><option>SPARKLING</option></select></td>
+                  <td class="row_left">상세설명</td>
+                  <td class="row_right"><input type="text" name="wContent"></td>
                 </tr>
                 <tr class="tb_row">
-                  <td class="row_left">국가</td>
-                  <td class="row_right" id="wprodNation"><input type="text" value="${w.prodNation}" id="wNation" name="wNation"></td>
+                  <td class="row_left">내용이미지</td>
+                  <td class="row_right"><input type="text" name="wImg" placeholder="이미지 주소를 입력해주세요."></td>
                 </tr>
                 <tr class="tb_row">
-                  <td class="row_left">알코올</td>
-                  <td class="row_right"><input type="text" value="${w.prodAlcohol}" id="wAlcohol" name="wAlcohol"></td>
+                  <td class="row_left">종류</td>
+                  <td class="row_right">
+                    <select name="wType">
+                        <option value="RED">RED</option>
+                        <option value="ROSE">ROSE</option>
+                        <option value="WHITE">WHITE</option>
+                        <option value="SPARKLING">SPARKLING</option>
+                    </select>
+                  </td>
                 </tr>
                 <tr class="tb_row">
-                  <td class="row_left">출시일자</td>
-                  <td class="row_right"><input type="text" value="${w.prodDate}" id="wDate" name="wDate" disabled="disabled"></td>
+                  <td class="row_left">원산지</td>
+                  <td class="row_right"><input type="text" name="wNation"></td>
                 </tr>
                 <tr class="tb_row">
-                  <td class="row_left">재고</td>
-                  <td class="row_right"><input type="number" value="${w.prodStock}" id="wStock" name="wStock"></td>
+                  <td class="row_left">바디감</td>
+                  <td class="row_right">
+                    <select name="wBody">
+                      <option value="무거움">무거움</option>
+                      <option value="중간">중간</option>
+                      <option value="가벼움">가벼움</option>
+                    </select>
+                  </td>
                 </tr>
-              </tbody>
+                <tr class="tb_row">
+                   <td class="row_left">도수</td>
+                   <td class="row_right">
+                    <select name="wAlcohol">
+                      <option value="높음">높음</option>
+                      <option value="중간">중간</option>
+                      <option value="낮음">낮음</option>
+                    </select>
+                   </td>
+                </tr>
+                <tr class="tb_row">
+                   <td class="row_left">출시일자</td>
+                   <td class="row_right"><input type="text" name="wDate" placeholder="YYYY-MM-DD 형식으로 입력해주세요."></td>
+                </tr>
+                <tr class="tb_row">
+                   <td class="row_left">수량</td>
+                   <td class="row_right"><input type="number" name="wStock"></td>
+                </tr>
+            </tbody>
           </table>
         </form>
       </div>
