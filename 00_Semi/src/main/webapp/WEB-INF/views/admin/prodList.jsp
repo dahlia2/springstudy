@@ -12,8 +12,6 @@
 <script src="${contextPath}/resources/js/lib/jquery-3.6.4.min.js"></script>
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 <script>
 $(function(){
     $('.elwine').on('click', function(){
@@ -240,16 +238,17 @@ tr {
        <table border="1" id="tableWineAll">
         <thead>
           <tr id="tb_column">
-            <td><span class="title" data-column="P.PROD_NO" data-order="${order}">품번</span></td>
-            <td><span class="title" data-column="P.PROD_THUMBNAIL" data-order="${order}">IMG</span></td>
-            <td><span class="title" data-column="P.PROD_NAME" data-order="${order}">품명(KR)</span></td>
-            <td><span class="title" data-column="P.PROD_NAME_ENG" data-order="${order}">품명(EN)</span></td>
-            <td><span class="title" data-column="P.PROD_TYPE" data-order="${order}">종류</span></td>
-            <td><span class="title" data-column="P.PROD_NATION" data-order="${order}">원산지</span></td>
-            <td><span class="title" data-column="P.PROD_BODY" data-order="${order}">바디감</span></td>
-            <td><span class="title" data-column="P.PROD_ALCOHOL" data-order="${order}">도수</span></td>
-            <td><span class="title" data-column="P.PROD_DATE" data-order="${order}">출시일자</span></td>
-            <td><span class="title" data-column="P.PROD_STOCK" data-order="${order}">재고</span></td>
+            <td><span class="title" data-column="PROD_NO" data-order="${order}">품번</span></td>
+            <td><span class="title" data-column="PROD_THUMBNAIL" data-order="${order}">IMG</span></td>
+            <td><span class="title" data-column="PROD_NAME" data-order="${order}">품명(KR)</span></td>
+            <td><span class="title" data-column="PROD_NAME_ENG" data-order="${order}">품명(EN)</span></td>
+            <td><span class="title" data-column="PROD_TYPE" data-order="${order}">종류</span></td>
+            <td><span class="title" data-column="PROD_NATION" data-order="${order}">원산지</span></td>
+            <td><span class="title" data-column="PROD_BODY" data-order="${order}">바디감</span></td>
+            <td><span class="title" data-column="PROD_ALCOHOL" data-order="${order}">도수</span></td>
+            <td><span class="title" data-column="PROD_DATE" data-order="${order}">출시일자</span></td>
+            <td><span class="title" data-column="PROD_STOCK" data-order="${order}">재고</span></td>
+           </tr>
         </thead>
         <tbody>
         <c:forEach items="${wineList}" var="wine" varStatus="vs">

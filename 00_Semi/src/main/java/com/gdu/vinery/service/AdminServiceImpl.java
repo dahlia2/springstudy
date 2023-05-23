@@ -166,8 +166,8 @@ public class AdminServiceImpl implements AdminService {
   // 상품 페이징
   @Override
   public void getProdListUsingPagination(HttpServletRequest request, Model model) {
-    Optional<String> opt1 = Optional.ofNullable(request.getParameter("page"));
-    int page = Integer.parseInt(opt1.orElse("1"));
+    
+    int page = (int)model.getAttribute("page");
     
     int totalRecord = adminMapper.getProductsCount();
     
@@ -175,8 +175,7 @@ public class AdminServiceImpl implements AdminService {
     Optional<Object> opt2 = Optional.ofNullable(session.getAttribute("recordPerPage"));
     int recordPerPage = (int)(opt2.orElse(10));
     
-    Optional<String> opt3 = Optional.ofNullable(request.getParameter("order"));
-    String order = opt3.orElse("ASC");
+    String order = (String)model.getAttribute("order");
     
     Optional<String> opt4 = Optional.ofNullable(request.getParameter("column"));
     String column = opt4.orElse("PROD_NAME");
@@ -192,7 +191,7 @@ public class AdminServiceImpl implements AdminService {
     List<ProductDTO> products = adminMapper.getProductListUsingPagination(map);
     
     model.addAttribute("products", products);
-    model.addAttribute("pagination", pageUtil.getPagination(request.getContextPath() + "/admin/pagination.do?column" + column + "&order=" + order));
+    model.addAttribute("pagination", pageUtil.getPagination(request.getContextPath() + "/admin/pagination.do?column=" + column + "&order=" + order));
     model.addAttribute("beginNo", totalRecord - (page - 1) * recordPerPage);
     
     switch (order) {
