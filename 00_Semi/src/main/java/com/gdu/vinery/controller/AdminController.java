@@ -32,8 +32,9 @@ public class AdminController {
 	
 	@GetMapping("/main.page")
 	public String mainList() {
-		return "admin/main";	
+		return "admin/main";
 	}
+	
 	
 	// [  상  품  ]
 	
@@ -95,7 +96,14 @@ public class AdminController {
 	  return "admin/prodList";
 	}
 	
-	// 회원관리
+	// 상품 조회
+	@GetMapping("/searchProd.do")
+	public String searchProd(HttpServletRequest request, Model model) {
+	  adminService.searchProd(request, model);
+	  return "admin/prodSearch";
+	}
+	
+	// 회원 관리
 	@GetMapping("/userList.page")
 	public String memberList(Model model) {
 	  List<UserDTO> memberList = adminService.selectUsers();

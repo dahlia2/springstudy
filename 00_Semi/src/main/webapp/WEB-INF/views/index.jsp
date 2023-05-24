@@ -47,8 +47,9 @@ p {
     vertical-align: middle;
 }
 
-.intro_page .intro_area .box_area .inner_box {
+.intro_page .intro_area .box_area {
     padding: 20px;
+    padding-left: 18px;
     box-sizing: border-box;
     background: rgba(0, 0, 0, 0.8);
     border: 1px solid #AC8B68;
@@ -56,6 +57,7 @@ p {
     height: 400px;
     margin-left: 400px;
 }
+
 
 .logo {
   margin-left: 180px;
@@ -115,6 +117,8 @@ p {
   color: white;
     font-family: 'NotoSansCJKkr', sans-serif;
 }
+
+
 </style>
 </head>
 <body>

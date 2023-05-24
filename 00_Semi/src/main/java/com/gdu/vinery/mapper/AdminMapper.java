@@ -22,6 +22,8 @@ public interface AdminMapper {
   public List<ProductDTO> getProductListUsingPagination(Map<String, Object> map);
   public int getProductsCount();  // 상품 총 개수
   
+  public List<ProductDTO> searchProd(String prodN);
+  
   
   // 회원관리
   public List<UserDTO> selectUsers();

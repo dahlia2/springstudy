@@ -125,10 +125,12 @@ li:hover {
  }
  
 .tableWine {
-  width: 1200px;
+  padding-left: 30px;
+  width: 1250px;
 }
 
 table {
+   width: 900px;
    text-align: center;
    margin-top: 30px;
    margin-bottom: 50px;
@@ -157,12 +159,8 @@ tr {
    background-color: #8e7583;
 }
 
-#tfoott {
-  height: 10px;
-}
-
 .main_right {
-    padding-left: 30px;
+    padding-left: 40px;
     padding-top: 30px;
     padding-right: 120px;
     border: 2px solid gray;
@@ -182,14 +180,14 @@ tr {
 }
 
 #addProd {
-  margin-left: 900px;
+  margin-left: 750px;
   font-size: 23px;
   width: 150px;
   font-weight: 530;
 }
 
 #searchArea {
-  display: inline;
+display: inline;
   margin-top: 30px;
   width: 370px;
   height: 50px;
@@ -198,10 +196,14 @@ tr {
   border-radius: 7px;
  }
  
- #prodN {
- font-size: 20px;
+ #searchmsg {
+ margin-left: 100px;
+ font-size: 35px;
+ font-weight: 500; 
+ 
  }
  
+
 </style>
 </head>
 <body>
@@ -233,6 +235,7 @@ tr {
         <li><a href="${contextPath}/admin/noticeList.page">게시판관리</a></li>
       </ul>
     </div>
+    
     <div class="main_right">
     <h1>상품관리 <i class="fa-solid fa-cart-shopping fa-bounce"></i></h1>
       <br>
@@ -246,68 +249,74 @@ tr {
       <div id="searchArea">
         <form action="${contextPath}/admin/searchProd.do">
           <span style="font-size: 20px;">품명검색 &nbsp;</span>
-          <input type="text" name="prodN" id="prodN" placeholder="&nbsp;&nbsp;검색어를 입력하세요.">
-          <button style="font-size: 20px;"><i class="fa-sharp fa-solid fa-magnifying-glass fa-fade" style="color: #20252c;"></i>&nbsp;검색&nbsp;</button>
+          <input type="text" name="prodN" placeholder="&nbsp;&nbsp;${prodN}" id="prodN" style="font-size: 20px;">
+          <button style="font-size: 20px"><i class="fa-sharp fa-solid fa-magnifying-glass fa-fade" style="color: #20252c;"></i>&nbsp;검색&nbsp;</button>
           <input type="button" value="상품 등록" onclick="fnAdd()" id="addProd">
         </form>
       </div>
      
-      <div class="tableWine">
-       <table border="1" id="tableWineAll">
-        <thead>
-          <tr id="tb_column">
-            <td>순번</td>
-            <td><span class="title" data-column="PROD_NO" data-order="${order}">품번</span></td>
-            <td><span class="title" data-column="PROD_THUMBNAIL" data-order="${order}">IMG</span></td>
-            <td><span class="title" data-column="PROD_NAME" data-order="${order}">품명(KR)</span></td>
-            <td><span class="title" data-column="PROD_NAME_ENG" data-order="${order}">품명(EN)</span></td>
-            <td><span class="title" data-column="PROD_TYPE" data-order="${order}">종류</span></td>
-            <td><span class="title" data-column="PROD_NATION" data-order="${order}">원산지</span></td>
-            <td><span class="title" data-column="PROD_BODY" data-order="${order}">바디감</span></td>
-            <td><span class="title" data-column="PROD_ALCOHOL" data-order="${order}">도수</span></td>
-            <td><span class="title" data-column="PROD_DATE" data-order="${order}">출시일자</span></td>
-            <td><span class="title" data-column="PROD_STOCK" data-order="${order}">재고</span></td>
-           </tr>
-        </thead>
-        <tbody>
-        <c:forEach items="${wineList}" var="wine" varStatus="vs">
-        <c:choose>
-            <c:when test="${wine.prodType eq 'RED'}">
-              <c:set var="color" value="#eedcdc" />
-            </c:when>
-            <c:when test="${wine.prodType eq 'ROSE'}">
-              <c:set var="color" value="#fdddf4" />
-            </c:when>
-            <c:when test="${wine.prodType eq 'SPARKLING'}">
-              <c:set var="color" value="#ddf2fd" />
-            </c:when>
-            <c:otherwise>
-              <c:set var="color" value="#fdf7dd" />
-            </c:otherwise>
-        </c:choose>
-
-          <tr class="tb_el">
-            <td>${beginNo - vs.index}</td>
-            <td class="elwine" id="wineNo" style="font-size: 18px; font-weight: 500;">${wine.prodNo}</td>
-            <td class="elwine" style="background:${color}"><img src="${wine.prodThumbnail}" width="90px"></td>
-            <td class="elwine">${wine.prodName}</td>
-            <td class="elwine">${wine.prodNameEng}</td>
-            <td class="elwine">${wine.prodType}</td>
-            <td class="elwine">${wine.prodNation}</td>
-            <td class="elwine">${wine.prodBody}</td>
-            <td class="elwine">${wine.prodAlcohol}</td>
-            <td class="elwine">${wine.prodDate}</td>
-            <td class="elwine">${wine.prodStock}</td>
-          </tr>
-        </c:forEach>
-        </tbody>
-        <tfoot>
-           <tr>
-             <td colspan="11">${pagination}</td>
-           </tr>
-        </tfoot>
-       </table>
+      <div class="search_txt">
+        <div id="search_wrap">
+          <span id="searchmsg">" ${prodN} "</span><span>으로 검색하신 결과입니다.</span>
+        </div>
       </div>
+      
+      <div class="tableWine">
+         <table border="1" id="tableWineAll">
+          <thead>
+            <tr id="tb_column">
+              <td>순번</td>
+              <td><span class="title" data-column="PROD_NO" data-order="${order}">품번</span></td>
+              <td><span class="title" data-column="PROD_THUMBNAIL" data-order="${order}">IMG</span></td>
+              <td><span class="title" data-column="PROD_NAME" data-order="${order}">품명(KR)</span></td>
+              <td><span class="title" data-column="PROD_NAME_ENG" data-order="${order}">품명(EN)</span></td>
+              <td><span class="title" data-column="PROD_TYPE" data-order="${order}">종류</span></td>
+              <td><span class="title" data-column="PROD_NATION" data-order="${order}">원산지</span></td>
+              <td><span class="title" data-column="PROD_BODY" data-order="${order}">바디감</span></td>
+              <td><span class="title" data-column="PROD_ALCOHOL" data-order="${order}">도수</span></td>
+              <td><span class="title" data-column="PROD_DATE" data-order="${order}">출시일자</span></td>
+              <td><span class="title" data-column="PROD_STOCK" data-order="${order}">재고</span></td>
+             </tr>
+          </thead>
+          <tbody>
+          <c:forEach items="${productList}" var="wine" varStatus="vs">
+          <c:choose>
+              <c:when test="${wine.prodType eq 'RED'}">
+                <c:set var="color" value="#eedcdc" />
+              </c:when>
+              <c:when test="${wine.prodType eq 'ROSE'}">
+                <c:set var="color" value="#fdddf4" />
+              </c:when>
+              <c:when test="${wine.prodType eq 'SPARKLING'}">
+                <c:set var="color" value="#ddf2fd" />
+              </c:when>
+              <c:otherwise>
+                <c:set var="color" value="#fdf7dd" />
+              </c:otherwise>
+          </c:choose>
+    
+            <tr class="tb_el">
+              <td>${beginNo - vs.index}</td>
+              <td class="elwine" id="wineNo" style="font-size: 18px; font-weight: 500;">${wine.prodNo}</td>
+              <td class="elwine" style="background:${color}"><img src="${wine.prodThumbnail}" width="90px"></td>
+              <td class="elwine">${wine.prodName}</td>
+              <td class="elwine">${wine.prodNameEng}</td>
+              <td class="elwine">${wine.prodType}</td>
+              <td class="elwine">${wine.prodNation}</td>
+              <td class="elwine">${wine.prodBody}</td>
+              <td class="elwine">${wine.prodAlcohol}</td>
+              <td class="elwine">${wine.prodDate}</td>
+              <td class="elwine">${wine.prodStock}</td>
+            </tr>
+          </c:forEach>
+          </tbody>
+          <tfoot>
+             <tr>
+               <td colspan="11">${pagination}</td>
+             </tr>
+          </tfoot>
+         </table>
+        </div>
     
     </div>
   </div>

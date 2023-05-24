@@ -202,10 +202,19 @@ public class AdminServiceImpl implements AdminService {
     }
 
     model.addAttribute("page", page);
-    
+   
   }
   
-  
+  @Override
+  public void searchProd(HttpServletRequest request, Model model) {
+    
+    String prodN = request.getParameter("prodN");
+    List<ProductDTO> productList = adminMapper.searchProd(prodN);
+    
+    model.addAttribute("prodN", prodN);
+    model.addAttribute("productList", productList);
+    
+  }
   
   @Override
   public List<UserDTO> selectUsers() {
