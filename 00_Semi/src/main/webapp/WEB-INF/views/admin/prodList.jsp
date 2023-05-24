@@ -166,11 +166,6 @@ tr {
     border-radius: 7px;
 }
 
-#searchWineP {
-    height: 20px;
-    margin-top: 10px;
-}
-
 #test {
     background-image: url('../resources/images/bossbaby.png');
     background-size: 150px;
@@ -226,18 +221,26 @@ tr {
     <div class="main_right">
     <h1>상품관리 <i class="fa-solid fa-wine-glass fa-beat-fade"></i></h1>
       <br>
-         <span>정렬개수 :&nbsp;</span>
-         <select id="recordPerPage">
-           <option value="10">10개</option>
-           <option value="20">20개</option>
-           <option value="30">30개</option>
-         </select>
-     
+      
+      <span>정렬개수 :&nbsp;</span>
+      <select id="recordPerPage">
+        <option value="10">10개</option>
+        <option value="20">20개</option>
+        <option value="30">30개</option>
+      </select>
+       
+      <div id="searchArea">
+        <span>상품검색 </span>
+        <input type="text" name="searchProduct" placeholder="검색어를 입력하세요.">
+        <input type="button" value="검색">
+      </div>
+        
       <input type="button" value="상품 등록" onclick="fnAdd()" id="addProd">
       <div class="tableWine">
        <table border="1" id="tableWineAll">
         <thead>
           <tr id="tb_column">
+            <td>순번</td>
             <td><span class="title" data-column="PROD_NO" data-order="${order}">품번</span></td>
             <td><span class="title" data-column="PROD_THUMBNAIL" data-order="${order}">IMG</span></td>
             <td><span class="title" data-column="PROD_NAME" data-order="${order}">품명(KR)</span></td>
@@ -268,6 +271,7 @@ tr {
         </c:choose>
 
           <tr class="tb_el">
+            <td>${(beginNo - vs.index) * -1}</td>
             <td class="elwine" id="wineNo" style="font-size: 18px; font-weight: 500;">${wine.prodNo}</td>
             <td class="elwine" style="background:${color}"><img src="${wine.prodThumbnail}" width="90px"></td>
             <td class="elwine">${wine.prodName}</td>

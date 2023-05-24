@@ -105,7 +105,7 @@
 						<td>${emp.employeeId}</td>
 						<td>${emp.firstName} ${emp.lastName}</td>
 						<td>${emp.email}</td>
-						<td>${emp.phoneNumber}</td>
+						<td>${emp.phoneNumber}</td>    
 						<td>${emp.hireDate}</td>
 						<td>${emp.jobId}</td>
 						<td>${emp.salary}</td>

@@ -90,12 +90,7 @@ public class AdminController {
 	
 	// 상품 목록 페이징
 	@GetMapping("/pagination.do")
-	public String pagination(HttpServletRequest request
-	                       , Model model
-	                       , @RequestParam(value="page", required=false, defaultValue="1") int page
-	                       , @RequestParam(value="order", required=false, defaultValue="ASC") String order) {
-	  model.addAttribute("page", page);
-	  model.addAttribute("order", order);
+	public String pagination(HttpServletRequest request, Model model) {
 	  adminService.getProdListUsingPagination(request, model);
 	  return "admin/prodList";
 	}

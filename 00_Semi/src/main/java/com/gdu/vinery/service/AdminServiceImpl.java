@@ -167,7 +167,8 @@ public class AdminServiceImpl implements AdminService {
   @Override
   public void getProdListUsingPagination(HttpServletRequest request, Model model) {
     
-    int page = (int)model.getAttribute("page");
+    Optional<String> opt1 = Optional.ofNullable(request.getParameter("page"));
+    int page = Integer.parseInt(opt1.orElse("1"));
     
     int totalRecord = adminMapper.getProductsCount();
     
@@ -175,7 +176,8 @@ public class AdminServiceImpl implements AdminService {
     Optional<Object> opt2 = Optional.ofNullable(session.getAttribute("recordPerPage"));
     int recordPerPage = (int)(opt2.orElse(10));
     
-    String order = (String)model.getAttribute("order");
+    Optional<String> opt3 = Optional.ofNullable(request.getParameter("order"));
+    String order = opt3.orElse("ASC");
     
     Optional<String> opt4 = Optional.ofNullable(request.getParameter("column"));
     String column = opt4.orElse("PROD_NAME");
