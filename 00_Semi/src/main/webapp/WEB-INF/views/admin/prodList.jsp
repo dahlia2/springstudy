@@ -178,13 +178,23 @@ tr {
 }
 
 #addProd {
-  display: block;
+
   margin-left: 900px;
   font-size: 23px;
   width: 150px;
   font-weight: 530;
-  ba
 }
+
+#searchArea {
+display: inline;
+  margin-top: 50px;
+  width: 370px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  border-radius: 7px;
+  padding-right: 30px;
+ }
 
 </style>
 </head>
@@ -210,18 +220,16 @@ tr {
   
   <div class="main">
     <div class="main_left">
-    <ul>
-      <li><a href="${contextPath}/admin/userList.page">회원관리</a></li>
-      <li><a href="${contextPath}/admin/prodList.page">상품관리</a></li>
-      <li><a href="${contextPath}/admin/orderList.page">주문관리</a></li>
-      <li><a href="${contextPath}/admin/noticeList.page">게시판관리</a></li>
-    </ul>
-    
+      <ul>
+        <li><a href="${contextPath}/admin/userList.page">회원관리</a></li>
+        <li><a href="${contextPath}/admin/prodList.page">상품관리</a></li>
+        <li><a href="${contextPath}/admin/orderList.page">주문관리</a></li>
+        <li><a href="${contextPath}/admin/noticeList.page">게시판관리</a></li>
+      </ul>
     </div>
     <div class="main_right">
-    <h1>상품관리 <i class="fa-solid fa-wine-glass fa-beat-fade"></i></h1>
+    <h1>상품관리 <i class="fa-solid fa-cart-shopping fa-beat"></i></h1>
       <br>
-      
       <span>정렬개수 :&nbsp;</span>
       <select id="recordPerPage">
         <option value="10">10개</option>
@@ -230,12 +238,13 @@ tr {
       </select>
        
       <div id="searchArea">
-        <span>상품검색 </span>
-        <input type="text" name="searchProduct" placeholder="검색어를 입력하세요.">
-        <input type="button" value="검색">
-      </div>
-        
       <input type="button" value="상품 등록" onclick="fnAdd()" id="addProd">
+        <form action="${contextPath}/searchProd.do">
+          <span>상품검색&nbsp;</span>
+          <input type="text" name="searchProduct" placeholder="검색어를 입력하세요." class="searchpd">
+          <button><i class="fa-sharp fa-solid fa-magnifying-glass fa-fade" style="color: #20252c;"></i>검색</button>
+        </form>
+      </div>
       <div class="tableWine">
        <table border="1" id="tableWineAll">
         <thead>
@@ -271,7 +280,7 @@ tr {
         </c:choose>
 
           <tr class="tb_el">
-            <td>${(beginNo - vs.index) * -1}</td>
+            <td>${beginNo - vs.index * 1}</td>
             <td class="elwine" id="wineNo" style="font-size: 18px; font-weight: 500;">${wine.prodNo}</td>
             <td class="elwine" style="background:${color}"><img src="${wine.prodThumbnail}" width="90px"></td>
             <td class="elwine">${wine.prodName}</td>

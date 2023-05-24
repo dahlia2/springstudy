@@ -9,21 +9,22 @@
   <jsp:param name="title" value="블로그" />
 </jsp:include>
 
-    <div>
-     </div>
+<div>
+
   <h1>블로그 목록</h1>
-  <c:if test="${sessionScope != null}" var=""></c:if>
-    <c:if type="button" value="블로그 작성하기" onclick="fnWrite()">
-    </c:if>
-     <div>
-      
+  
+  <c:if test="${sessionScope.loginId ne null}">
+    <div>
+      <input type="button" value="블로그 작성하기" onclick="fnWrite()">
+    </div>
+  </c:if>
+
 </div>
 
-<!-- 스크립트를 마지막에 두면 load 이벤트를 사용할 필요가 없음 -->
 <script>
-function fnWrite(){
-	 location.href='${contextPath}/blog/write.form';
-}
+  function fnWrite(){
+    location.href = '${contextPath}/blog/write.form';
+  }
 </script>
 
 </body>

@@ -11,12 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gdu.app13.service.MemberService;
 
-
 @RequestMapping("/user")
 @Controller
 public class MemberController {
-  
-  
+
   @Autowired
   private MemberService memberService;
   

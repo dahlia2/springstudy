@@ -8,5 +8,7 @@ import com.gdu.app13.domain.MemberDTO;
 
 @Mapper
 public interface MemberMapper {
+  
   public MemberDTO selectMemberByMap(Map<String, Object> map);
+  
 }
