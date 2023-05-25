@@ -5,12 +5,46 @@
 
 <!-- namespace는 @Mapper를 지정한다. -->
 <mapper namespace="com.gdu.vinery.mapper.AdminMapper">
-
-  <select id="selectProd" resultType="ProductDTO">
-    SELECT *
+  
+  <select id="getProductsCount" resultType="int">
+    SELECT COUNT(*)
       FROM PRODUCT
   </select>
   
+	<select id="getProductListUsingPagination" resultType="ProductDTO">
+     SELECT A.RN 
+          , A.PROD_NO
+          , A.PROD_NAME
+          , A.PROD_NAME_ENG
+          , A.PROD_PRICE
+          , A.PROD_CONTENT
+          , A.PROD_THUMBNAIL
+          , A.PROD_IMG
+          , A.PROD_TYPE
+          , A.PROD_NATION
+          , A.PROD_BODY
+          , A.PROD_ALCOHOL
+          , A.PROD_DATE
+          , A.PROD_STOCK
+       FROM (SELECT ROW_NUMBER() OVER(ORDER BY ${column} ${order}) AS RN
+		              , PROD_NO
+					        , PROD_NAME
+					        , PROD_NAME_ENG
+					        , PROD_PRICE
+					        , PROD_CONTENT
+					        , PROD_THUMBNAIL
+					        , PROD_IMG
+					        , PROD_TYPE
+					        , PROD_NATION
+					        , PROD_BODY
+					        , PROD_ALCOHOL
+					        , PROD_DATE
+					        , PROD_STOCK
+					     FROM PRODUCT ) A
+      WHERE A.RN BETWEEN #{begin} AND #{end} 
+	</select>
+	
+	
   <select id="selectProdByNo" resultType="ProductDTO">
     SELECT *
       FROM PRODUCT
@@ -68,49 +102,12 @@
 	    )
   </insert>
   
-  <select id="getProductsCount" resultType="int">
-    SELECT COUNT(*)
-      FROM PRODUCT
-  </select>
-  
-	<select id="getProductListUsingPagination" resultType="ProductDTO">
-     SELECT A.RN 
-          , A.PROD_NO
-          , A.PROD_NAME
-          , A.PROD_NAME_ENG
-          , A.PROD_PRICE
-          , A.PROD_CONTENT
-          , A.PROD_THUMBNAIL
-          , A.PROD_IMG
-          , A.PROD_TYPE
-          , A.PROD_NATION
-          , A.PROD_BODY
-          , A.PROD_ALCOHOL
-          , A.PROD_DATE
-          , A.PROD_STOCK
-       FROM (SELECT ROW_NUMBER() OVER(ORDER BY ${column} ${order}) AS RN
-		              , PROD_NO
-					        , PROD_NAME
-					        , PROD_NAME_ENG
-					        , PROD_PRICE
-					        , PROD_CONTENT
-					        , PROD_THUMBNAIL
-					        , PROD_IMG
-					        , PROD_TYPE
-					        , PROD_NATION
-					        , PROD_BODY
-					        , PROD_ALCOHOL
-					        , PROD_DATE
-					        , PROD_STOCK
-					     FROM PRODUCT ) A
-      WHERE A.RN BETWEEN #{begin} AND #{end} 
-	</select>
-	
+
 	<select id="searchProd" parameterType="String" resultType="ProductDTO">
 	    SELECT *
 	      FROM PRODUCT
-	     WHERE PROD_NAME      LIKE  '%' || #{prodN} || '%'
-	        OR PROD_NAME_ENG  LIKE '%'  || #{prodN} || '%'
+	     WHERE PROD_NAME      LIKE  '%'  || #{prodN} || '%'
+	        OR PROD_NAME_ENG  LIKE  '%'  || #{prodN} || '%'
 	</select>
   
   <select id="selectUsers" resultType="UserDTO">

@@ -13,7 +13,6 @@ import com.gdu.vinery.domain.UserDTO;
 public interface AdminMapper {
 	
   // 상품관리
-	public List<ProductDTO> selectProd();
 	public ProductDTO selectProdByNo(int prodNo);
   public int modifyProd(ProductDTO product);
   public int deleteProd(int wNo);

@@ -29,11 +29,48 @@ public class AdminServiceImpl implements AdminService {
 	private AdminMapper adminMapper;
 	private PageUtil pageUtil;
 	
-	// 상품 나열
+	// 상품 목록
 	@Override
-	public List<ProductDTO> selectProd() {
-		return adminMapper.selectProd();
+	public void selectProd(HttpServletRequest request, Model model) {
+	  
+	    Optional<String> opt1 = Optional.ofNullable(request.getParameter("page"));
+	    int page = Integer.parseInt(opt1.orElse("1"));
+	    
+	    int totalRecord = adminMapper.getProductsCount();
+	    
+	    HttpSession session = request.getSession();
+	    Optional<Object> opt2 = Optional.ofNullable(session.getAttribute("recordPerPage"));
+	    int recordPerPage = (int)(opt2.orElse(10));
+	    
+	    Optional<String> opt3 = Optional.ofNullable(request.getParameter("order"));
+	    String order = opt3.orElse("ASC");
+	    
+	    Optional<String> opt4 = Optional.ofNullable(request.getParameter("column"));
+	    String column = opt4.orElse("PROD_NAME");
+	    
+	    pageUtil.setPageUtil(page, totalRecord, recordPerPage);
+	    
+	    Map<String, Object> map = new HashMap<String, Object>();
+	    map.put("begin", pageUtil.getBegin());
+	    map.put("end", pageUtil.getEnd());
+	    map.put("order", order);
+	    map.put("column", column);
+	    
+	    List<ProductDTO> wineList = adminMapper.getProductListUsingPagination(map);
+	    
+	    model.addAttribute("wineList", wineList);
+	    model.addAttribute("pagination", pageUtil.getPagination(request.getContextPath() + "/admin/prodList.page?column=" + column + "&order=" + order));
+	    model.addAttribute("beginNo", totalRecord - (page - 1) * recordPerPage);
+	    
+	    switch (order) {
+	    case "ASC"  : model.addAttribute("order", "DESC"); break;
+	    case "DESC" : model.addAttribute("order", "ASC"); break;
+	    }
+
+	    model.addAttribute("page", page);
+	
 	}
+	
 	
 	// 상품 상세
 	@Override
@@ -162,49 +199,7 @@ public class AdminServiceImpl implements AdminService {
     }
   }
   
-  
-  // 상품 페이징
-  @Override
-  public void getProdListUsingPagination(HttpServletRequest request, Model model) {
-    
-    Optional<String> opt1 = Optional.ofNullable(request.getParameter("page"));
-    int page = Integer.parseInt(opt1.orElse("1"));
-    
-    int totalRecord = adminMapper.getProductsCount();
-    
-    HttpSession session = request.getSession();
-    Optional<Object> opt2 = Optional.ofNullable(session.getAttribute("recordPerPage"));
-    int recordPerPage = (int)(opt2.orElse(10));
-    
-    Optional<String> opt3 = Optional.ofNullable(request.getParameter("order"));
-    String order = opt3.orElse("ASC");
-    
-    Optional<String> opt4 = Optional.ofNullable(request.getParameter("column"));
-    String column = opt4.orElse("PROD_NAME");
-    
-    pageUtil.setPageUtil(page, totalRecord, recordPerPage);
-    
-    Map<String, Object> map = new HashMap<String, Object>();
-    map.put("begin", pageUtil.getBegin());
-    map.put("end", pageUtil.getEnd());
-    map.put("order", order);
-    map.put("column", column);
-    
-    List<ProductDTO> products = adminMapper.getProductListUsingPagination(map);
-    
-    model.addAttribute("products", products);
-    model.addAttribute("pagination", pageUtil.getPagination(request.getContextPath() + "/admin/pagination.do?column=" + column + "&order=" + order));
-    model.addAttribute("beginNo", totalRecord - (page - 1) * recordPerPage);
-    
-    switch (order) {
-    case "ASC"  : model.addAttribute("order", "DESC"); break;
-    case "DESC" : model.addAttribute("order", "ASC"); break;
-    }
-
-    model.addAttribute("page", page);
-   
-  }
-  
+  // 상품 검색
   @Override
   public void searchProd(HttpServletRequest request, Model model) {
     
@@ -216,11 +211,14 @@ public class AdminServiceImpl implements AdminService {
     
   }
   
+  
+  // 회원 조회
   @Override
   public List<UserDTO> selectUsers() {
     return adminMapper.selectUsers();
   }
   
+  // 공지 조회
   @Override
   public List<NoticeDTO> selectNotices() {
     return adminMapper.selectNotices();

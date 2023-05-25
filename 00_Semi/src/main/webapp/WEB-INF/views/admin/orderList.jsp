@@ -45,14 +45,14 @@ $(function(){
 
 $(function(){
     $('#recordPerPage').on('change', function(){
-      location.href = '${contextPath}/admin/record.do?recordPerPage=' + $(this).val();
+      location.href = '${contextPath}/admin/change/record.do?recordPerPage=' + $(this).val();
     })
     
     let recordPerPage = '${sessionScope.recordPerPage}' == '' ? '10' : '${sessionScope.recordPerPage}';
     $('#recordPerPage').val(recordPerPage);
     
     $('.title').on('click', function(){
-    	 location.href='${contextPath}/admin/prodList.page?column=' + $(this).data('column') + '&order=' + $(this).data('order') + '&page=${page}';
+    	 location.href='${contextPath}/admin/prodList.do?column=' + $(this).data('column') + '&order=' + $(this).data('order') + '&page=${page}';
     })
  })
   
@@ -202,12 +202,6 @@ tr {
  font-size: 20px;
  }
  
- #pn {
- font-size: 30px;
- letter-spacing: 20px;
- ab
- }
- 
 </style>
 </head>
 <body>
@@ -239,12 +233,9 @@ tr {
         <li><a href="${contextPath}/admin/noticeList.page">게시판관리</a></li>
       </ul>
     </div>
- 
     <div class="main_right">
     <h1>상품관리 <i class="fa-solid fa-cart-shopping fa-bounce"></i></h1>
-      
       <br>
-      
       <span>정렬개수 :&nbsp;</span>
       <select id="recordPerPage">
         <option value="10">10개</option>
@@ -261,7 +252,6 @@ tr {
         </form>
       </div>
      
-      <div id="pn">${pagination}</div>
       <div class="tableWine">
        <table border="1" id="tableWineAll">
         <thead>
@@ -311,8 +301,13 @@ tr {
           </tr>
         </c:forEach>
         </tbody>
-      </table>
-     </div>
+        <tfoot>
+           <tr>
+             <td colspan="11">${pagination}</td>
+           </tr>
+        </tfoot>
+       </table>
+      </div>
     
     </div>
   </div>

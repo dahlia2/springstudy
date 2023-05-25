@@ -11,4 +11,5 @@ public interface MemberMapper {
   
   public MemberDTO selectMemberByMap(Map<String, Object> map);
   
+  
 }

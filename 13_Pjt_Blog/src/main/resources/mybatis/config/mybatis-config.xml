@@ -14,7 +14,7 @@
 	<typeAliases>
 	  <typeAlias alias="MemberDTO"                 type="com.gdu.app13.domain.MemberDTO" />
 		<typeAlias alias="BlogDTO"                   type="com.gdu.app13.domain.BlogDTO" />
-		<typeAlias alias="SummernoteimageDTO"        type="com.gdu.app13.domain.SummernoteimageDTO" />
+		<typeAlias alias="SummernoteImageDTO"        type="com.gdu.app13.domain.SummernoteImageDTO" />
 		<typeAlias alias="CommentDTO"                type="com.gdu.app13.domain.CommentDTO" />
 		<typeAlias alias="GoodDTO"                   type="com.gdu.app13.domain.GoodDTO" />
 

@@ -35,16 +35,7 @@
         <c:forEach items="${blogList}" var="blog" varStatus="vs">
         <tr>
           <td>${beginNo - vs.index}</td>
-          <td>
-          
-            <!-- 내가 작성한 블로그는 조회수가 증가하지 않는다. -->
-            <c:if test="${sessionScope.loginId eq blog.memberDTO.id}">
-              <a href="${contextPath}/blog/detail.do?/blogNo=${blog.blogNo}">${blog.title}</a>
-            </c:if>
-            <c:if test="${sessionScope.loginId ne blog.memberDTO.id}">
-              <a href="${contextPath}/blog/increase.do?/blogNo=${blog.blogNo}">${blog.title}</a>
-            </c:if>
-          </td>
+          <td><a href="${contextPath}/blog/increaseHit.do?/blogNo=${blog.blogNo}"></a><td>${blog.title}</td>
           <td>${blog.hit}</td>
           <td>${blog.memberDTO.id}</td>
           <td>${blog.createdAt}</td>

@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.gdu.vinery.domain.NoticeDTO;
-import com.gdu.vinery.domain.ProductDTO;
 import com.gdu.vinery.domain.UserDTO;
 import com.gdu.vinery.service.AdminService;
 
@@ -30,21 +29,27 @@ public class AdminController {
 	@Autowired
   private AdminService adminService;
 	
-	@GetMapping("/main.page")
-	public String mainList() {
-		return "admin/main";
-	}
 	
+	/* [  상  품  ] */
 	
-	// [  상  품  ]
-	
-	// 상품 리스트
+  // 상품 리스트
 	@GetMapping("/prodList.page")
-	public String prodList(Model model) {
-		List<ProductDTO> wineList = adminService.selectProd();
-		model.addAttribute("wineList", wineList);
+	public String prodList(HttpServletRequest request, Model model) {
+		adminService.selectProd(request, model);
 		return "admin/prodList";	
 	}
+	
+	// 상품 페이징 개수 저장
+	@GetMapping("/record.do")
+	public String changeRecord(HttpSession session
+	    , HttpServletRequest request
+	    , HttpServletResponse response
+	    , @RequestParam(value="recordPerPage", required=false, defaultValue="10") int recordPerPage) {
+	  session.setAttribute("recordPerPage", recordPerPage);
+	  return "redirect:" + request.getHeader("referer");  
+	}
+	
+	
 	
 	// 상품 상세
 	@GetMapping("/detailProd.page")
@@ -79,23 +84,6 @@ public class AdminController {
 	  return "redirect:/admin/prodList.page";
 	}
 	
-	// 상품 페이징 개수 저장
-	@GetMapping("/change/record.do")
-	public String changeRecord(HttpSession session
-	                         , HttpServletRequest request
-	                         , HttpServletResponse response
-	                         , @RequestParam(value="recordPerPage", required=false, defaultValue="10") int recordPerPage) {
-	     session.setAttribute("recordPerPage", recordPerPage);
-	     return "redirect:" + request.getHeader("referer");
-	}
-	
-	// 상품 목록 페이징
-	@GetMapping("/pagination.do")
-	public String pagination(HttpServletRequest request, Model model) {
-	  adminService.getProdListUsingPagination(request, model);
-	  return "admin/prodList";
-	}
-	
 	// 상품 조회
 	@GetMapping("/searchProd.do")
 	public String searchProd(HttpServletRequest request, Model model) {
@@ -103,6 +91,8 @@ public class AdminController {
 	  return "admin/prodSearch";
 	}
 	
+	
+  /* [  회  원  ] */
 	// 회원 관리
 	@GetMapping("/userList.page")
 	public String memberList(Model model) {

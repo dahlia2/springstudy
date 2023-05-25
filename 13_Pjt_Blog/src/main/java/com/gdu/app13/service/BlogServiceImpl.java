@@ -3,21 +3,29 @@ package com.gdu.app13.service;
 import java.io.File;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.gdu.app13.domain.BlogDTO;
 import com.gdu.app13.domain.MemberDTO;
+import com.gdu.app13.domain.SummernoteImageDTO;
 import com.gdu.app13.mapper.BlogMapper;
 import com.gdu.app13.util.MyFileUtil;
+import com.gdu.app13.util.PageUtil;
 
 import lombok.AllArgsConstructor;
 
@@ -27,13 +35,32 @@ public class BlogServiceImpl implements BlogService {
 
   private BlogMapper blogMapper;
   private MyFileUtil myFileUtil;
+  private PageUtil pageUtil;
   
   @Override
   public void loadBlogList(HttpServletRequest request, Model model) {
-    // TODO Auto-generated method stub
-
+    Optional<String> opt1 =  Optional.ofNullable(request.getParameter("page"));  
+    int page = Integer.parseInt(opt1.orElse("1"));
+    
+    int blogCount = blogMapper.getBlogCount();
+    
+    int recordPerPage = 10;
+    
+    pageUtil.setPageUtil(page, blogCount, recordPerPage);
+    
+    Map<String, Object> map = new HashMap<String, Object>();
+    map.put("begin", pageUtil.getBegin());
+    map.put("end", pageUtil.getEnd());
+    
+    List<BlogDTO> blogList = blogMapper.getBlogList(map);
+    
+    model.addAttribute("blogList", blogList);
+    model.addAttribute("pagination", pageUtil.getPagination(request.getContextPath() + "/blog/list.do"));
+    model.addAttribute("beginNo", blogCount - (page - 1) * recordPerPage);
+ 
   }
 
+  @Transactional(readOnly=true)
   @Override
   public void addBlog(HttpServletRequest request, HttpServletResponse response) {
     
@@ -41,6 +68,9 @@ public class BlogServiceImpl implements BlogService {
     String title = request.getParameter("title");
     String content = request.getParameter("content");
     int memberNo = Integer.parseInt(request.getParameter("memberNo"));
+    
+    /*
+     * **  BLOG_T  ***/
     
     // DB로 보낼 BlogDTO 만들기
     MemberDTO memberDTO = new MemberDTO();
@@ -52,6 +82,24 @@ public class BlogServiceImpl implements BlogService {
     
     // DB로 BlogDTO 보내기 (삽입)
     int addResult = blogMapper.addBlog(blogDTO);
+    
+    
+    /*
+     * **  SUMMERNOTE_IMGE_T  ***/
+    
+    Document document = Jsoup.parse(content);
+    Elements elements = document.getElementsByTag("img");
+    
+    if(elements != null) {
+      for(Element element : elements) {
+        String src = element.attr("src");
+        String filesystemName = src.substring(src.lastIndexOf("/") + 1);
+        SummernoteImageDTO summernoteImageDTO = new SummernoteImageDTO();
+        summernoteImageDTO.setFilesystemName(filesystemName);
+        summernoteImageDTO.setBlogNo(blogDTO.getBlogNo());
+        blogMapper.addSummernoteImage(summernoteImageDTO);
+      }
+    }
     
     // 응답
     try {
@@ -121,7 +169,15 @@ public class BlogServiceImpl implements BlogService {
     
   }
   
+  @Override
+  public int increaseHit(int blogNo) {
+    return blogMapper.increaseHit(blogNo);
+  }
   
+  @Override
+  public void loadBlog(int blogNo, Model model) {
+    model.addAttribute("blog", blogMapper.getBlogByNo(blogNo));
+  }
   
   
   

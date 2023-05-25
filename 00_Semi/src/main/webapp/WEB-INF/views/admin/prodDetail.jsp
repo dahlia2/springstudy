@@ -272,7 +272,7 @@ option {
     
     <div class="main_right">
     
-     <div style="cursor: pointer;" id="goback"><i class="fa-solid fa-circle-left" style="color: #606060;" onclick="fnList()">&nbsp; 목록으로</i></div>
+     <div style="cursor: pointer;" id="goback"><i class="fa-solid fa-circle-left" style="color: #606060;" onclick="fnBack()">&nbsp; 뒤로가기</i></div>
       <div id="detail_title"><p>&nbsp; 상품 상세 &nbsp;</p></div>
       <div class="tableWine">
         <form id="frm" action="${contextPath}/admin/removeProd.do" method="post">

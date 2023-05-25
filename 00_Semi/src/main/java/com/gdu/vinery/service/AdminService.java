@@ -15,12 +15,11 @@ import com.gdu.vinery.domain.UserDTO;
 public interface AdminService {
 	
   // 상품관리
-	public List<ProductDTO> selectProd();
+	public void selectProd(HttpServletRequest request, Model model);
 	public ProductDTO selectProdByNo(HttpServletRequest request);
 	public Map<String, Object> modifyProd(HttpServletRequest request);
 	public void removeProd(HttpServletRequest request, HttpServletResponse response);
 	public int insertProd(HttpServletRequest request);
-	public void getProdListUsingPagination(HttpServletRequest request, Model model);
 	public void searchProd(HttpServletRequest request, Model model); 
 	
 	

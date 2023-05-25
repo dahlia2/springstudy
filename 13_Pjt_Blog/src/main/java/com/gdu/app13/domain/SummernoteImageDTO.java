@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SummernoteimageDTO {
+public class SummernoteImageDTO {
 
   private String filesystemName;
   private int blogNo;
