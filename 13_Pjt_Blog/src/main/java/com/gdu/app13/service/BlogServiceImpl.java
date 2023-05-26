@@ -39,11 +39,10 @@ public class BlogServiceImpl implements BlogService {
   
   @Override
   public void loadBlogList(HttpServletRequest request, Model model) {
-    Optional<String> opt1 =  Optional.ofNullable(request.getParameter("page"));  
+    
+    Optional<String> opt1 = Optional.ofNullable(request.getParameter("page"));
     int page = Integer.parseInt(opt1.orElse("1"));
-    
     int blogCount = blogMapper.getBlogCount();
-    
     int recordPerPage = 10;
     
     pageUtil.setPageUtil(page, blogCount, recordPerPage);
@@ -57,7 +56,7 @@ public class BlogServiceImpl implements BlogService {
     model.addAttribute("blogList", blogList);
     model.addAttribute("pagination", pageUtil.getPagination(request.getContextPath() + "/blog/list.do"));
     model.addAttribute("beginNo", blogCount - (page - 1) * recordPerPage);
- 
+    
   }
 
   @Transactional(readOnly=true)
@@ -69,8 +68,7 @@ public class BlogServiceImpl implements BlogService {
     String content = request.getParameter("content");
     int memberNo = Integer.parseInt(request.getParameter("memberNo"));
     
-    /*
-     * **  BLOG_T  ***/
+    /*** BLOG_T ***/
     
     // DB로 보낼 BlogDTO 만들기
     MemberDTO memberDTO = new MemberDTO();
@@ -82,10 +80,8 @@ public class BlogServiceImpl implements BlogService {
     
     // DB로 BlogDTO 보내기 (삽입)
     int addResult = blogMapper.addBlog(blogDTO);
-    
-    
-    /*
-     * **  SUMMERNOTE_IMGE_T  ***/
+
+    /*** SUMMERNOTE_IMAGE_T ***/
     
     Document document = Jsoup.parse(content);
     Elements elements = document.getElementsByTag("img");
@@ -171,7 +167,7 @@ public class BlogServiceImpl implements BlogService {
   
   @Override
   public int increaseHit(int blogNo) {
-    return blogMapper.increaseHit(blogNo);
+    return blogMapper.increseHit(blogNo);
   }
   
   @Override
@@ -179,17 +175,4 @@ public class BlogServiceImpl implements BlogService {
     model.addAttribute("blog", blogMapper.getBlogByNo(blogNo));
   }
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-
 }
