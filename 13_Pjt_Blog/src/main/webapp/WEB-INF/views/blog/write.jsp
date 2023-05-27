@@ -25,8 +25,8 @@
   
   $(function(){
     $('#content').summernote({
-      width: 550,
-      height: 550,
+      width: 1280,
+      height: 1024,
       lang: 'ko-KR',
       toolbar: [
         ['style', ['bold', 'italic', 'underline', 'clear']],

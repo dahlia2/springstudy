@@ -10,14 +10,10 @@ import com.gdu.app13.domain.SummernoteImageDTO;
 
 @Mapper
 public interface BlogMapper {
-  
   public int getBlogCount();
   public List<BlogDTO> getBlogList(Map<String, Object> map);
   public int addBlog(BlogDTO blogDTO);
-  
-  public int addSummernoteImage(SummernoteImageDTO summernoteimageDTO);
-  
-  public int increaseHit(int blogNo);
+  public int addSummernoteImage(SummernoteImageDTO summernoteImageDTO);
+  public int increseHit(int blogNo);
   public BlogDTO getBlogByNo(int blogNo);
-  
 }
