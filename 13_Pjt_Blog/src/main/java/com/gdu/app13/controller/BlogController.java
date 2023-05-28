@@ -42,27 +42,31 @@ public class BlogController {
   
   @ResponseBody
   @PostMapping(value="/imageUpload.do", produces="application/json")
-  public Map<String, Object> appload(MultipartHttpServletRequest multipartHttpServletRequest) {
-    return blogService.imageUpload(multipartHttpServletRequest);
+  public Map<String, Object> imageUpload(MultipartHttpServletRequest multipartRequest) {
+    return blogService.imageUpload(multipartRequest);
   }
   
-  // 조회수 증가
-  @GetMapping("/increaseHit.do")
-  public String increaseHit(@RequestParam(value="blogNo", required=false, defaultValue="0") int blogNo) {
+  @GetMapping("/increseHit.do")
+  public String increseHit(@RequestParam(value="blogNo", required=false, defaultValue="0") int blogNo) {
     int increaseResult = blogService.increaseHit(blogNo);
     if(increaseResult == 1) {
       return "redirect:/blog/detail.do?blogNo=" + blogNo;
-     } else {
+    } else {
       return "redirect:/blog/list.do";
-     }
-   }
+    }
+  }
   
-  // 게시글 상세
   @GetMapping("/detail.do")
   public String detail(@RequestParam(value="blogNo", required=false, defaultValue="0") int blogNo
                      , Model model) {
     blogService.loadBlog(blogNo, model);
     return "blog/detail";
   }
+  
+  
+  
+  
+  
+  
   
 }

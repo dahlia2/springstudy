@@ -14,7 +14,7 @@ import com.gdu.app13.mapper.MemberMapper;
 
 @Service
 public class MemberServiceImpl implements MemberService {
-  
+
   @Autowired
   private MemberMapper memberMapper;
   
