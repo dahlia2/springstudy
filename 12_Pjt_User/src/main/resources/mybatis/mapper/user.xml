@@ -6,6 +6,7 @@
 <!-- namespace는 @Mapper를 지정한다. -->
 <mapper namespace="com.gdu.app12.mapper.UserMapper">
 
+<!-- ********* 아이디 확인 *********  -->
   <select id="selectUserById" parameterType="String" resultType="UserDTO">
     SELECT ID, EMAIL, JOINED_AT
       FROM USER_T
@@ -23,7 +24,9 @@
       FROM LEAVE_USER_T
      WHERE ID = #{id}
   </select>
-
+  
+  
+<!-- ********* 이메일 확인 ********* -->
   <select id="selectUserByEmail" parameterType="String" resultType="UserDTO">
     SELECT EMAIL
       FROM USER_T
@@ -42,6 +45,8 @@
      WHERE EMAIL = #{email}
   </select>
 
+
+<!-- ********* 회원가입 ********* -->
   <insert id="insertUser" parameterType="UserDTO">
     INSERT INTO USER_T (
         USER_NO
@@ -86,12 +91,17 @@
     )
   </insert>
 
+
+<!-- ********* 로그인 ********* -->
   <select id="selectUserByUserDTO" parameterType="UserDTO" resultType="UserDTO">
     SELECT ID
       FROM USER_T
      WHERE ID = #{id}
        AND PW = #{pw}
   </select>
+  
+  
+<!-- ********* 접속기록 ********* -->
   <insert id="insertUserAccess" parameterType="String">
     INSERT INTO USER_ACCESS_T (
         ID
@@ -101,11 +111,15 @@
       , SYSDATE
     )
   </insert>
+ 
   <update id="updateUserAccess" parameterType="String">
     UPDATE USER_ACCESS_T
        SET LAST_LOGIN_AT = SYSDATE
      WHERE ID = #{id}
   </update>
+  
+  
+<!-- ********* 자동로그인 ********* -->
   <update id="insertAutologin" parameterType="UserDTO">
     UPDATE USER_T
        SET AUTOLOGIN_ID = #{autologinId}
@@ -125,7 +139,8 @@
        AND AUTOLOGIN_EXPIRED_AT > SYSDATE
   </select>
 
-  
+
+<!-- ********* 탈퇴 ********* -->
   <insert id="insertLeaveUser" parameterType="LeaveUserDTO">
     INSERT INTO LEAVE_USER_T (
         ID
@@ -145,6 +160,8 @@
      WHERE ID = #{id}
   </delete>
 
+
+<!-- ********* 휴먼 처리&복원 ********* -->
   <!-- 휴면처리 1단계 : 1년(12개월) 이상 접속 내역(USER_ACCESS_T의 LAST_LOGIN_AT)이 없는 회원을 휴면 테이블에 저장하기 -->
   <insert id="insertSleepUser">
     INSERT INTO SLEEP_USER_T (
@@ -248,7 +265,6 @@
       FROM SLEEP_USER_T
      WHERE ID = #{id}
   </delete>
-
 
 
 </mapper>

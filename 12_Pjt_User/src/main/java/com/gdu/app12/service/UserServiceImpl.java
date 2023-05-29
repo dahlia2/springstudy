@@ -30,6 +30,8 @@ public class UserServiceImpl implements UserService {
   private JavaMailUtil javaMailUtil;
   private SecurityUtil securityUtil;
   
+  
+/* ****** 아이디 중복확인 ****** */
   @Override
   public Map<String, Object> verifyId(String id) {
     Map<String, Object> map = new HashMap<String, Object>();
@@ -37,6 +39,7 @@ public class UserServiceImpl implements UserService {
     return map;
   }
   
+/* ****** 이메일 중복확인 ****** */
   @Override
   public Map<String, Object> verifyEmail(String email) {
     Map<String, Object> map = new HashMap<String, Object>();
@@ -44,6 +47,7 @@ public class UserServiceImpl implements UserService {
     return map;
   }
   
+/* ****** 이메일 인증번호 ****** */
   @Override
   public Map<String, Object> sendAuthCode(String email) {
     
@@ -60,6 +64,7 @@ public class UserServiceImpl implements UserService {
     
   }
   
+/* ****** 회원가입 ****** */
   @Override
   public void join(HttpServletRequest request, HttpServletResponse response) {
     
@@ -84,7 +89,7 @@ public class UserServiceImpl implements UserService {
     // 비밀번호 SHA-256 암호화
     pw = securityUtil.getSha256(pw);
     
-    // 이름 XSS 처리
+    // 이름 XSS 처리 (Cross Site Scripting)
     name = securityUtil.preventXSS(name);
     
     // 출생월일
@@ -97,12 +102,12 @@ public class UserServiceImpl implements UserService {
     extraAddress = securityUtil.preventXSS(extraAddress);
     
     // agreecode
-    int agreecode = 0;
-    if(location.isEmpty() == false && event.isEmpty() == false) {
+    int agreecode = 0;   // 위치 & 이벤트 모두 비동의 = 0
+    if(location.isEmpty() == false && event.isEmpty() == false) {  // 위치 & 이벤트 모두 동의  = 3
       agreecode = 3;
-    } else if(location.isEmpty() && event.isEmpty() == false) {
+    } else if(location.isEmpty() && event.isEmpty() == false) {    // 위치 비동의, 이벤트 동의 = 2
       agreecode = 2;
-    } else if(location.isEmpty() == false && event.isEmpty()) {
+    } else if(location.isEmpty() == false && event.isEmpty()) {    // 위치 동의, 이벤트 비동의 = 1
       agreecode = 1;
     }
     
@@ -149,6 +154,7 @@ public class UserServiceImpl implements UserService {
     
   }
   
+/* ****** 로그인 ****** */
   @Override
   public void login(HttpServletRequest request, HttpServletResponse response) {
     
@@ -216,6 +222,7 @@ public class UserServiceImpl implements UserService {
     
   }
   
+/* ****** 자동로그인 ****** */
   @Override
   public void autoLogin(HttpServletRequest request, HttpServletResponse response) {
     
@@ -278,6 +285,7 @@ public class UserServiceImpl implements UserService {
     
   }
   
+/* ****** 로그아웃 ****** */
   @Override
   public void logout(HttpServletRequest request, HttpServletResponse response) {
     
@@ -298,7 +306,8 @@ public class UserServiceImpl implements UserService {
     session.invalidate();
     
   }
-  
+ 
+/* ****** 탈퇴 ****** */
   @Transactional(readOnly=true)
   @Override
   public void leave(HttpServletRequest request, HttpServletResponse response) {
@@ -347,7 +356,8 @@ public class UserServiceImpl implements UserService {
     }
     
   }
-  
+
+/* ****** 휴먼계정 ****** */
   @Transactional(readOnly=true)
   @Override
   public void sleepUserHandle() {
@@ -393,22 +403,34 @@ public class UserServiceImpl implements UserService {
     
   }
   
-  /*
-   * @Override public Map<String, Object> findUser(UserDTO userDTO) { Map<String,
-   * Object> map = new HashMap<String, Object>(); map.put("findUser",
-   * userMapper.selectUserByEmail(userDTO.getEmail())); return map; }
-   */
+  @Override
+  public boolean checkPw(String id, String pw) {
+    UserDTO userDTO = userMapper.selectUserById(id);
+    pw = securityUtil.getSha256(pw);
+    return pw.equals(userDTO.getPw());
+  }
+  
+  
+  @Override
+  public UserDTO getUserById(String id) {
+    return userMapper.selectUserById(id);
+  }
+  
+  
+  
+/*
+     @Override
+     public Map<String, Object> findUser(UserDTO userDTO) { 
+     
+       Map<String, Object> map = new HashMap<String, Object>();
+       map.put("findUser", userMapper.selectUserByEmail(userDTO.getEmail())); 
+       
+       return map;
+     }
+*/
   
   
 
 }
-
-
-
-
-
-
-
-
 
 
