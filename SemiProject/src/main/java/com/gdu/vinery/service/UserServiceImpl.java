@@ -152,37 +152,29 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void login(HttpServletRequest request, HttpServletResponse response) {
 		
-		// 占쏙옙청 占식띰옙占쏙옙占�
-		String url = request.getParameter("url");	// 占싸깍옙占쏙옙 화占쏙옙占쏙옙 占쏙옙占쏙옙 占쌍쇽옙(占싸깍옙占쏙옙 占쏙옙 占실듸옙占싣곤옙 占쌍쇽옙)sy
+    // 요청 파라미터
+		String url = request.getParameter("url");	
 		String userId = request.getParameter("userId");	
 		String userPw = request.getParameter("userPw");	
 		
+    // 비밀번호 SHA-256 암호화
 		if(userPw.equals("1111")) {
 	         System.out.println("관리자가 로그인 했습니다.");
 	      }else {
 	         // 비밀번호 SHA-256 암호화
 	         userPw = userSecurityUtil.getSha256(userPw);
 	      }
-		
-		// UserDTO 占쏙옙占쏙옙占�
+    // UserDTO 만들기		
 		UserDTO userDTO = new UserDTO();
 		userDTO.setUserId(userId);
 		userDTO.setUserPw(userPw);
 		
-		
-		// DB占쏙옙占쏙옙 UserDTO 占쏙옙회占싹깍옙
+    // DB에서 UserDTO 조회하기		
 		UserDTO loginUserDTO = userMapper.selectUserByUserDTO(userDTO);
 		
 		
-		
-		// ID, PW占쏙옙 占쏙옙치占싹댐옙 회占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 占싸깍옙占쏙옙 占쏙옙占쏙옙
-		// 0. 占쌘듸옙 占싸깍옙占쏙옙 처占쏙옙占싹깍옙(autoLogin 占쌨소드에 占시깍옙占�)
-		// 1. session占쏙옙 ID 占쏙옙占쏙옙占싹깍옙
-		// 2. 회占쏙옙 占쏙옙占쏙옙 占쏙옙占� 占쏙옙占쏙옙占�
-		// 3. 占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙占쏙옙 占싱듸옙占싹깍옙
 		if(loginUserDTO != null) {
 			
-			// 占쌘듸옙 占싸깍옙占쏙옙 처占쏙옙占쏙옙 占쏙옙占쏙옙 autoLogin 占쌨소듸옙 호占쏙옙占싹깍옙
 			autoLogin(request, response);
 			
 			HttpSession session = request.getSession();
@@ -204,15 +196,15 @@ public class UserServiceImpl implements UserService {
 			}
 			
 		} else {
-			// ID, PW占쏙옙 占쏙옙치占싹댐옙 회占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 占싸깍옙占쏙옙 占쏙옙占쏙옙
+		// ID, PW가 일치하는 회원이 없으면 로그인 실패
 			
-			// 占쏙옙占쏙옙
+      // 응답
 			try {
 				
 				response.setContentType("text/html; charset=UTF-8");
 				PrintWriter out = response.getWriter();
 				out.println("<script>");
-				out.println("alert('占쏙옙치占싹댐옙 회占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占싹댐옙.');");
+				out.println("alert('일치하는 회원 정보가 없습니다.');");
 				out.println("location.href='" + request.getContextPath() + "/main';");
 				out.println("</script>");
 				out.flush();
@@ -229,19 +221,19 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void autoLogin(HttpServletRequest request, HttpServletResponse response) {
 		
-		/*
-	 	占쌘듸옙 占싸깍옙占쏙옙 처占쏙옙占싹깍옙
-	 	
-	 	1. 占쌘듸옙 占싸깍옙占쏙옙占쏙옙 체크占쏙옙 占쏙옙占�
-	 		1) session占쏙옙 id占쏙옙 DB占쏙옙 AUTOLOGIN_ID 칼占쏙옙占쏙옙 占쏙옙占쏙옙占싼댐옙. (占쌩븝옙占쏙옙 占쏙옙占쏙옙, 占쌕몌옙 占쏙옙占쏙옙占� 占싯깍옙 占쏙옙占쏙옙占� 占쏙옙占쏙옙占쏙옙 占싱울옙占쌔쇽옙 占쌘듸옙 占싸깍옙占싸울옙占쏙옙 占쏙옙占쏙옙占� ID占쏙옙 占쏙옙占쏙옙占싼댐옙.)
-	 		2) 占쌘듸옙 占싸깍옙占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 占썩간(占쏙옙占쏙옙 : 15占쏙옙)占쏙옙 DB占쏙옙 AUTOLOGIN_EXPIRED_AT 칼占쏙옙占쏙옙 占쏙옙占쏙옙占싼댐옙.
-	 		3) session占쏙옙 id占쏙옙 占쏙옙키占쏙옙 占쏙옙占쏙옙占싼댐옙. (占쏙옙키 : 占쏙옙 占쏙옙占쏙옙占쏙옙占� 占쏙옙占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙풔占� 占쏙옙占쏙옙)
-	 			占쏙옙 占쏙옙 占쏙옙키占쏙옙 占쏙옙占쏙옙 占시곤옙占쏙옙 占쌘듸옙 占싸깍옙占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 占썩간占쏙옙 占쏙옙占쏙옙占싹곤옙 占쏙옙占쏙옙占�.
-	 	
-	 	2. 占쌘듸옙 占싸깍옙占쏙옙占쏙옙 체크占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占�
-	 		1) DB占쏙옙 占쏙옙占쏙옙占� AUTOLOGIN_ID 칼占쏙옙占쏙옙 AUTOLOGIN_EXPIRED_AT 칼占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占싼댐옙.(NULL 占쏙옙占쏙옙占쏙옙 처占쏙옙?)
-	 		2) 占쏙옙키占쏙옙 占쏙옙占쏙옙占싼댐옙.
-		*/
+    /*
+      자동 로그인 처리하기
+      
+      1. 자동 로그인을 체크한 경우
+        1) session의 id를 DB의 AUTOLOGIN_ID 칼럼에 저장한다. (중복이 없고, 다른 사람이 알기 어려운 정보를 이용해서 자동 로그인에서 사용할 ID를 결정한다.)
+        2) 자동 로그인을 유지할 기간(예시 : 15일)을 DB의 AUTOLOGIN_EXPIRED_AT 칼럼에 저장한다.
+        3) session의 id를 쿠키로 저장한다. (쿠키 : 각 사용자의 브라우저에 저장되는 정보)
+           이 때 쿠키의 유지 시간을 자동 로그인을 유지할 기간과 동일하게 맞춘다.
+      
+      2. 자동 로그인을 체크하지 않은 경우
+        1) DB에 저장된 AUTOLOGIN_ID 칼럼과 AUTOLOGIN_EXPIRED_AT 칼럼의 정보를 삭제한다.
+        2) 쿠키를 삭제한다.
+  */
 	
 		// 占쏙옙청 占식띰옙占쏙옙占�
 		String userId = request.getParameter("userId");
