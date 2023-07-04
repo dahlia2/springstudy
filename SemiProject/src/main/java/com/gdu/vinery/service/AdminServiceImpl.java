@@ -61,6 +61,7 @@ public class AdminServiceImpl implements AdminService {
 	    model.addAttribute("wineList", wineList);
 	    model.addAttribute("pagination", pageUtil.getPagination(request.getContextPath() + "/admin/prodList.page?column=" + column + "&order=" + order));
 	    model.addAttribute("beginNo", totalRecord - (page - 1) * recordPerPage);
+	    model.addAttribute("recordPerPage", recordPerPage);
 	    
 	    switch (order) {
 	    case "ASC"  : model.addAttribute("order", "DESC"); break;

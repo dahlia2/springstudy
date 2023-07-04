@@ -23,46 +23,46 @@ import com.zaxxer.hikari.HikariDataSource;
 @Configuration
 public class DBConfig {
 
-	@Autowired
-	private Environment env;    // Environment : 스프링이 가지고 있는 bean이라 별도의 생성 코드가 보이지 않음.
-	
-	// HikaryConfig Bean
-	@Bean
-	public HikariConfig hikariConfig() {
-		HikariConfig hikariConfig = new HikariConfig();
-		hikariConfig.setDriverClassName(env.getProperty("spring.datasource.hikari.driver-class-name"));
-		hikariConfig.setJdbcUrl(env.getProperty("spring.datasource.hikari.jdbc-url"));
-		hikariConfig.setUsername(env.getProperty("spring.datasource.hikari.username"));
-		hikariConfig.setPassword(env.getProperty("spring.datasource.hikari.password"));
-		return hikariConfig;
-	}
-	
-	// HikariDataSource Bean
-	@Bean(destroyMethod="close")
-	public HikariDataSource hikariDataSource() {
-		return new HikariDataSource(hikariConfig());
-	}
-	
-	// SqlSessionFactory Bean
-	@Bean
-	public SqlSessionFactory sqlSessionFactory() throws Exception {
-		SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
-		bean.setDataSource(hikariDataSource());
-		bean.setConfigLocation(new PathMatchingResourcePatternResolver().getResource(env.getProperty("mybatis.config-location")));
-		bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources(env.getProperty("mybatis.mapper-locations")));
-		return bean.getObject();
-	}
-	
-	// SqlSessionTemplate Bean
-	@Bean
-	public SqlSessionTemplate sqlSessionTemplate() throws Exception {
-		return new SqlSessionTemplate(sqlSessionFactory());
-	}
-	
-	// TransactionManager Bean (정상적으로 동작하기 위해선 트랜잭션 허용이 필요 -> 위에 적은 @EnableTransactionManagement)
-	@Bean
-	public TransactionManager transactionManager() {
-		return new DataSourceTransactionManager(hikariDataSource());
-	}
-	
+  @Autowired
+  private Environment env;
+  
+  // HikaryConfig Bean
+  @Bean
+  public HikariConfig hikariConfig() {
+    HikariConfig hikariConfig = new HikariConfig();
+    hikariConfig.setDriverClassName(env.getProperty("spring.datasource.hikari.driver-class-name"));
+    hikariConfig.setJdbcUrl(env.getProperty("spring.datasource.hikari.jdbc-url"));
+    hikariConfig.setUsername(env.getProperty("spring.datasource.hikari.username"));
+    hikariConfig.setPassword(env.getProperty("spring.datasource.hikari.password"));
+    return hikariConfig;
+  }
+  
+  // HikariDataSource Bean
+  @Bean(destroyMethod="close")
+  public HikariDataSource hikariDataSource() {
+    return new HikariDataSource(hikariConfig());
+  }
+  
+  // SqlSessionFactory Bean
+  @Bean
+  public SqlSessionFactory sqlSessionFactory() throws Exception {
+    SqlSessionFactoryBean bean = new SqlSessionFactoryBean();
+    bean.setDataSource(hikariDataSource());
+    bean.setConfigLocation(new PathMatchingResourcePatternResolver().getResource(env.getProperty("mybatis.config-location")));
+    bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources(env.getProperty("mybatis.mapper-locations")));
+    return bean.getObject();
+  }
+  
+  // SqlSessionTemplate Bean
+  @Bean
+  public SqlSessionTemplate sqlSessionTemplate() throws Exception {
+    return new SqlSessionTemplate(sqlSessionFactory());
+  }
+  
+  // TransactionManager Bean
+  @Bean
+  public TransactionManager transactionManager() {
+    return new DataSourceTransactionManager(hikariDataSource());
+  }
+
 }

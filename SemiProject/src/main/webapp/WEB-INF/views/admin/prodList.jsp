@@ -358,7 +358,7 @@ tr {
         </c:choose>
 
           <tr class="tb_el">
-            <td style="font-size: 18px; font-weight: 500;">${beginNo - vs.index}</td>
+            <td style="font-size: 18px; font-weight: 500;">${vs.index + 1 + (page-1) * recordPerPage}</td>
             <td class="elwine" id="wineNo">${wine.prodNo}</td>
             <td class="elwine" style="background:${color}"><img src="${wine.prodThumbnail}" width="90px"></td>
             <td class="elwine">${wine.prodName}</td>
