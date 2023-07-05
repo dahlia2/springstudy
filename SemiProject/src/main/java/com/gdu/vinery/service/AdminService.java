@@ -23,7 +23,6 @@ public interface AdminService {
 	public int insertProd(HttpServletRequest request);
 	public void searchProd(HttpServletRequest request, Model model); 
 	
-	
 	// 회원관리
 	public List<UserDTO> selectUsers();
 	public UserDTO selectuserByNo(HttpServletRequest request);
